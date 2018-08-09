@@ -36,6 +36,13 @@ struct Vec {
         vec.capacity = capacity;
         return vec;
     }
+    static Vec emptyWithSize(size_t size) {
+        Vec vec;
+        vec.data = new T[size];
+        vec.size = size;
+        vec.capacity = size;
+        return vec;
+    }
     static Vec fromElem(const T& elem, size_t count) {
         Vec vec;
         vec.data = new T[count];
@@ -48,7 +55,7 @@ struct Vec {
     }
 
     static Vec fromRaw(T* data, size_t count) {
-        Vec vec;
+        Vec vec = Vec::create(count);
         memcpy(vec.data, data, sizeof(T) * count);
         vec.size = count;
         return vec;
