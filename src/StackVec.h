@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 6/22/18.
 //
 
-#ifndef THESYSTEM_STACKVEC_H
-#define THESYSTEM_STACKVEC_H
+#ifndef ALTLIB_STACKVEC_H
+#define ALTLIB_STACKVEC_H
 
 #include <cstddef>
 #include <cassert>
@@ -72,4 +72,4 @@ struct StackVec {
 };
 
 
-#endif //THESYSTEM_STACKVEC_H
+#endif //ALTLIB_STACKVEC_H

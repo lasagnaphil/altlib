@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/14/18.
 //
 
-#ifndef THESYSTEM_TUPLE_H
-#define THESYSTEM_TUPLE_H
+#ifndef ALTLIB_TUPLE_H
+#define ALTLIB_TUPLE_H
 
 template <typename T, typename U>
 struct Pair {
@@ -19,4 +19,4 @@ struct Pair {
         r = right;
     }
 };
-#endif //THESYSTEM_TUPLE_H
+#endif //ALTLIB_TUPLE_H

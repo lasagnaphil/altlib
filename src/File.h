@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/22/18.
 //
 
-#ifndef THESYSTEM_FILE_H
-#define THESYSTEM_FILE_H
+#ifndef ALTLIB_FILE_H
+#define ALTLIB_FILE_H
 
 #include <cstdio>
 #include <fcntl.h>
@@ -52,4 +52,4 @@ struct File {
         fclose(file);
     }
 };
-#endif //THESYSTEM_FILE_H
+#endif //ALTLIB_FILE_H

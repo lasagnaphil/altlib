@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/15/18.
 //
 
-#ifndef THESYSTEM_RECT_H
-#define THESYSTEM_RECT_H
+#ifndef ALTLIB_RECT_H
+#define ALTLIB_RECT_H
 
 #include "Vector2.h"
 #include "../json/Json.h"
@@ -32,4 +32,4 @@ using Rect2f = Rect<float>;
 using Rect2i = Rect<int>;
 
 
-#endif //THESYSTEM_RECT_H
+#endif //ALTLIB_RECT_H

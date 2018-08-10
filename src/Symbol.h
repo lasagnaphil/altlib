@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/22/18.
 //
 
-#ifndef THESYSTEM_SYMBOL_H
-#define THESYSTEM_SYMBOL_H
+#ifndef ALTLIB_SYMBOL_H
+#define ALTLIB_SYMBOL_H
 
 #include <cstddef>
 #include "String.h"
@@ -21,4 +21,4 @@ struct Symbol {
     }
 };
 
-#endif //THESYSTEM_SYMBOL_H
+#endif //ALTLIB_SYMBOL_H

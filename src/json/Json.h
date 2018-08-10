@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/28/18.
 //
 
-#ifndef THESYSTEM_JSON_H
-#define THESYSTEM_JSON_H
+#ifndef ALTLIB_JSON_H
+#define ALTLIB_JSON_H
 
 #include "../log.h"
 #include "../String.h"
@@ -222,4 +222,4 @@ namespace json {
 };
 
 
-#endif //THESYSTEM_JSON_H
+#endif //ALTLIB_JSON_H

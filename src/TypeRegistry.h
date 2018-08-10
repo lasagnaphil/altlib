@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/10/18.
 //
 
-#ifndef THESYSTEM_TYPEREGISTRY_H
-#define THESYSTEM_TYPEREGISTRY_H
+#ifndef ALTLIB_TYPEREGISTRY_H
+#define ALTLIB_TYPEREGISTRY_H
 
 #include <cstdint>
 
@@ -13,4 +13,4 @@ public:
 };
 
 
-#endif //THESYSTEM_TYPEREGISTRY_H
+#endif //ALTLIB_TYPEREGISTRY_H

@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 2018-07-23.
 //
 
-#ifndef THESYSTEM_RESULT_H
-#define THESYSTEM_RESULT_H
+#ifndef ALTLIB_RESULT_H
+#define ALTLIB_RESULT_H
 
 #include <cstdio>
 #include <cstdlib>
@@ -64,4 +64,4 @@ struct Result {
         if (!isValid) { error.free(); }
     }
 };
-#endif //THESYSTEM_RESULT_H
+#endif //ALTLIB_RESULT_H

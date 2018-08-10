@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/22/18.
 //
 
-#ifndef THESYSTEM_STRINGPOOL_H
-#define THESYSTEM_STRINGPOOL_H
+#ifndef ALTLIB_STRINGPOOL_H
+#define ALTLIB_STRINGPOOL_H
 
 #include "Map.h"
 #include "String.h"
@@ -44,4 +44,4 @@ struct StringPool {
 
 
 
-#endif //THESYSTEM_STRINGPOOL_H
+#endif //ALTLIB_STRINGPOOL_H

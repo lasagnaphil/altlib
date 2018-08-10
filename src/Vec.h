@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/10/18.
 //
 
-#ifndef THESYSTEM_VEC_H
-#define THESYSTEM_VEC_H
+#ifndef ALTLIB_VEC_H
+#define ALTLIB_VEC_H
 
 #include <cassert>
 #include <cstring>
@@ -125,4 +125,4 @@ struct Vec {
 };
 
 
-#endif //THESYSTEM_VEC_H
+#endif //ALTLIB_VEC_H

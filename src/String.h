@@ -5,8 +5,8 @@
 #include <cstddef>
 #include <cstring>
 
-#ifndef THESYSTEM_STRING_H
-#define THESYSTEM_STRING_H
+#ifndef ALTLIB_STRING_H
+#define ALTLIB_STRING_H
 
 #include "Map.h"
 #include "StringPool.h"
@@ -120,4 +120,4 @@ struct OwnedString {
     }
 };
 
-#endif //THESYSTEM_STRING_H
+#endif //ALTLIB_STRING_H

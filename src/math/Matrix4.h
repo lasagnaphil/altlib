@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/15/18.
 //
 
-#ifndef THESYSTEM_MATRIX4_H
-#define THESYSTEM_MATRIX4_H
+#ifndef ALTLIB_MATRIX4_H
+#define ALTLIB_MATRIX4_H
 
 #include <cmath>
 #include <cstring>
@@ -120,4 +120,4 @@ Matrix4<T> operator*(Matrix4<T> lhs, const Vector4<T>& rhs) {
 
 using Matrix4f = Matrix4<float>;
 
-#endif //THESYSTEM_MATRIX4_H
+#endif //ALTLIB_MATRIX4_H

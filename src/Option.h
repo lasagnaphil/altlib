@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/14/18.
 //
 
-#ifndef THESYSTEM_OPTION_H
-#define THESYSTEM_OPTION_H
+#ifndef ALTLIB_OPTION_H
+#define ALTLIB_OPTION_H
 
 #include <cassert>
 
@@ -40,4 +40,4 @@ struct Option {
     }
 };
 
-#endif //THESYSTEM_OPTION_H
+#endif //ALTLIB_OPTION_H

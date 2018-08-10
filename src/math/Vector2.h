@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/15/18.
 //
 
-#ifndef THESYSTEM_VECTOR2_H
-#define THESYSTEM_VECTOR2_H
+#ifndef ALTLIB_VECTOR2_H
+#define ALTLIB_VECTOR2_H
 
 #include "../json/Json.h"
 
@@ -68,4 +68,4 @@ Vector2<T> operator*(T k, const Vector2<T>& v) {
 using Vector2f = Vector2<float>;
 using Vector2i = Vector2<int>;
 
-#endif //THESYSTEM_VECTOR2_H
+#endif //ALTLIB_VECTOR2_H

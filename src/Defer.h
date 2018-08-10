@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/10/18.
 //
 
-#ifndef THESYSTEM_DEFER_H
-#define THESYSTEM_DEFER_H
+#ifndef ALTLIB_DEFER_H
+#define ALTLIB_DEFER_H
 
 
 #include <functional>
@@ -15,4 +15,4 @@ template <class F> deferrer<F> operator*(defer_dummy, F f) { return {f}; }
 #define DEFER(LINE) DEFER_(LINE)
 #define defer auto DEFER(__LINE__) = defer_dummy{} *[&]()
 
-#endif //THESYSTEM_DEFER_H
+#endif //ALTLIB_DEFER_H

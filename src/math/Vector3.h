@@ -2,8 +2,8 @@
 // Created by lasagnaphil on 7/15/18.
 //
 
-#ifndef THESYSTEM_VECTOR3_H
-#define THESYSTEM_VECTOR3_H
+#ifndef ALTLIB_VECTOR3_H
+#define ALTLIB_VECTOR3_H
 
 template <typename T>
 struct Vector3 {
@@ -65,4 +65,4 @@ Vector3<T> operator*(T k, const Vector3<T>& v) {
 using Vector3f = Vector3<float>;
 using Vector3i = Vector3<int>;
 
-#endif //THESYSTEM_VECTOR3_H
+#endif //ALTLIB_VECTOR3_H

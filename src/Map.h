@@ -2,10 +2,8 @@
 // Created by lasagnaphil on 6/22/18.
 //
 
-// TODO: UNFINISHED
-
-#ifndef THESYSTEM_MAP_H
-#define THESYSTEM_MAP_H
+#ifndef ALTLIB_MAP_H
+#define ALTLIB_MAP_H
 
 #include <climits>
 #include <cstdint>
@@ -21,6 +19,15 @@ static inline size_t rotr32(size_t n, unsigned int c) {
     const unsigned int mask = (CHAR_BIT * sizeof(n) - 1);
     c &= mask;
     return (n>>c) | (n<<( (-c)&mask));
+}
+
+#define MAP_FOREACH(__map, __key, __value, __CODE) \
+for (int __i = 0; __i < __map._bucketCount; __i++) { \
+    if (__map._states[__i] == State::FILLED) { \
+        auto& __key = __map._buckets[i].key; \
+        auto& __value = __map._buckets[i].value; \
+        __CODE \
+    } \
 }
 
 // Courtesy of emilib (https://github.com/emilk/emilib), which a lot of this code is based on
@@ -133,7 +140,7 @@ struct Map {
         return _buckets[i].value;
     }
 
-    bool contains(const K& key) {
+    bool contains(const K& key) const {
         return _findFilledBucket(key) != (size_t)-1;
     }
 
@@ -254,4 +261,4 @@ struct Map {
 };
 
 
-#endif //THESYSTEM_MAP_H
+#endif //ALTLIB_MAP_H
