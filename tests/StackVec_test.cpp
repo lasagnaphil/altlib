@@ -15,7 +15,7 @@ TEST_CASE("StackVec works", "[StackVec]") {
         vec.push(1);
         vec.push(3);
         vec.push(5);
-        REQUIRE(vec._size == 4);
+        REQUIRE(vec.size == 4);
     }
     SECTION("create with capacity, push, pop, free") {
         auto vec = StackVec<int, 4>();
@@ -24,7 +24,7 @@ TEST_CASE("StackVec works", "[StackVec]") {
         vec.push(3);
         vec.pop();
         vec.push(5);
-        REQUIRE(vec._size == 3);
+        REQUIRE(vec.size == 3);
         REQUIRE(vec[0] == 0);
         REQUIRE(vec[1] == 1);
         REQUIRE(vec[2] == 5);

@@ -12,12 +12,12 @@
 
 template <typename T, unsigned int N>
 struct StackVec {
-    T _data[N];
-    size_t _size;
+    T data[N];
+    size_t size;
 
     static StackVec create() {
         StackVec vec;
-        vec._size = 0;
+        vec.size = 0;
         return vec;
     }
 
@@ -25,51 +25,46 @@ struct StackVec {
         assert(count <= N);
         StackVec vec;
         for (size_t i = 0; i < count; ++i) {
-            vec._data[i] = elem;
+            vec.data[i] = elem;
         }
-        vec._size = count;
+        vec.size = count;
         return vec;
     }
 
     StackVec clone() {
         StackVec vec;
-        vec._size = _size;
-        memcpy(vec._data, _data, sizeof(T) * _size);
+        vec.size = size;
+        memcpy(vec.data, data, sizeof(T) * size);
         return vec;
     }
 
     void push(const T& elem) {
-        assert(_size < N);
-        _data[_size] = elem;
-        _size++;
+        assert(size < N);
+        data[size] = elem;
+        size++;
     }
 
     T pop() {
-        assert(_size > 0);
-        _size--;
-        return _data[_size];
+        assert(size > 0);
+        size--;
+        return data[size];
     }
 
     T* getData() {
-        return _data;
-    }
-
-    std::size_t size() const {
-        return _size;
+        return data;
     }
 
     T& operator[](size_t idx) {
-        assert(idx >= 0 && idx < _size);
-        T& item = _data[idx];
+        assert(idx >= 0 && idx < size);
+        T& item = data[idx];
         return item;
     }
 
     const T& operator[](size_t idx) const {
-        assert(idx >= 0 && idx < _size);
-        const T& item = _data[idx];
+        assert(idx >= 0 && idx < size);
+        const T& item = data[idx];
         return item;
     }
 };
-
 
 #endif //ALTLIB_STACKVEC_H

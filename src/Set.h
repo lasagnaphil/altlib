@@ -19,6 +19,20 @@ struct Set {
         set.items = Map<T, Empty>::create();
         return set;
     }
+    static Set<T> fromVec(const Vec<T>& vec) {
+        Set set = Set::create();
+        FOREACH(vec, v, {
+            set.insert(v);
+        })
+        return set;
+    }
+    static Set<T> fromRaw(T* data, size_t count) {
+        Set set = Set::create();
+        for (int i = 0; i < count; ++i) {
+            set.insert(data[i]);
+        }
+        return set;
+    }
 
     void free() { items.free(); }
 
@@ -29,6 +43,10 @@ struct Set {
 
     void insert(const T& item) {
         items[item] = Empty {};
+    }
+
+    void remove(const T& item) {
+        items.erase(item);
     }
 
     bool has(const T& item) const {

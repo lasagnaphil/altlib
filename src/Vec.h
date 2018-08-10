@@ -8,28 +8,50 @@
 #include <cassert>
 #include <cstring>
 
-#define VEC_FOREACH(__vec, __v, CODE) { \
-    for (int __i = 0; __i < __vec.size; ++__i) { \
-        auto& __v = __vec[__i]; \
-        CODE \
-    } \
+#define FOREACH(__vec, __v, CODE) \
+for (int __i = 0; __i < __vec.size; ++__i) { \
+    auto& __v = __vec.data[__i]; \
+    CODE \
 }
 
-#define VEC_FOREACHI(__vec, __v, __i, CODE) { \
-    for (int __i = 0; __i < __vec.size; ++__i) { \
-        auto& __v = __vec[__i]; \
-        CODE \
-    } \
-}
+#define FOREACHI(__vec, __v, __i, CODE) \
+for (int __i = 0; __i < __vec.size; ++__i) { \
+    auto& __v = __vec[__i]; \
+    CODE \
+} \
+
+template <typename T>
+struct Slice {
+    T* data;
+    size_t size;
+
+    static Slice fromRaw(T* data, size_t size) {
+        return Slice {
+            .data = data,
+            .size = size
+        };
+    }
+
+    T& operator[](size_t idx) {
+        assert(idx >= 0 && idx < size);
+        T& item = data[idx];
+        return item;
+    }
+
+    const T& operator[](size_t idx) const {
+        assert(idx >= 0 && idx < size);
+        const T& item = data[idx];
+        return item;
+    }
+};
 
 template <typename T>
 struct Vec {
-
     T* data;
     size_t size;
     size_t capacity;
 
-    static Vec create(size_t capacity = 1) {
+    static Vec create(size_t capacity = 0) {
         Vec vec;
         vec.data = new T[capacity];
         vec.size = 0;
@@ -68,13 +90,17 @@ struct Vec {
         return vec;
     }
 
+    Slice<T> toSlice() {
+        return Slice<T>::fromRaw(data, size);
+    }
+
     void free() {
         delete[] data;
     }
 
     void push(const T& elem) {
         if (size >= capacity) {
-            reserve(2 * capacity);
+            reserve(capacity > 0? 2 * capacity : 1);
         }
         data[size] = elem;
         size++;
@@ -121,6 +147,10 @@ struct Vec {
         if (size > capacity) {
             size = capacity;
         }
+    }
+
+    bool empty() const {
+        return size == 0;
     }
 };
 
