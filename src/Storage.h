@@ -8,7 +8,7 @@
 #include <cassert>
 #include <cstring>
 
-#include "../TypeRegistry.h"
+#include "TypeRegistry.h"
 #include "String.h"
 #include "Option.h"
 #include "Symbol.h"

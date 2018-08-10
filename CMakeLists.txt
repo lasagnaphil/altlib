@@ -3,11 +3,21 @@ set(PROJECT_NAME altlib)
 project(${PROJECT_NAME})
 set(CMAKE_CXX_STANDARD 14)
 
-add_library(altlib
-        log.cpp
-        StringPool.cpp
-        math/Matrix4.cpp
-        math/Rect.cpp
-        math/Vector2.cpp)
+set(PROJECT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+file(GLOB_RECURSE PROJECT_SOURCES
+        ${PROJECT_INCLUDE_DIR}/*.cpp
+        ${PROJECT_INCLUDE_DIR}/*.c)
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+add_library(${PROJECT_NAME} ${PROJECT_SOURCES})
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_INCLUDE_DIR})
+
+set(CATCH2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/catch2)
+add_library(catch2 INTERFACE)
+target_include_directories(catch2 INTERFACE ${CATCH2_DIR})
+
+set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
+file(GLOB_RECURSE TEST_SOURCES ${TEST_DIR}/*.cpp)
+add_executable(tests ${TEST_SOURCES})
+target_include_directories(tests PRIVATE ${PROJECT_INCLUDE_DIR})
+target_link_libraries(tests altlib)
+target_link_libraries(tests catch2)
