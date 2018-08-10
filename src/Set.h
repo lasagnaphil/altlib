@@ -12,11 +12,11 @@
 template<typename T>
 struct Set {
     struct Empty {};
-    Map<T, int> items;
+    Map<T, Empty> items;
 
     static Set<T> create() {
         Set set;
-        set.items = Map<T, int>::create();
+        set.items = Map<T, Empty>::create();
         return set;
     }
 
@@ -28,7 +28,7 @@ struct Set {
     size_t size() const { return items.size(); }
 
     void insert(const T& item) {
-        items[item] = 0;
+        items[item] = Empty {};
     }
 
     bool has(const T& item) const {
