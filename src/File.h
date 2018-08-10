@@ -42,6 +42,19 @@ struct File {
         return Result<String, Err>::ok(str);
     }
 
+    Result<Vec<char>, Err> readBytes() {
+        fseek(file, 0, SEEK_END);
+        long size = ftell(file);
+        fseek(file, 0, SEEK_SET);
+        Vec<char> bytes = Vec<char>::emptyWithSize(size);
+        if (size != fread(bytes.data, sizeof(char), size, file)) {
+            bytes.free();
+            auto errorStr = String::fmt("Error while reading file:\n    %s", strerror(errno));
+            return Result<Vec<char>, Err>::err(errorStr);
+        }
+        return Result<Vec<char>, Err>::ok(bytes);
+    }
+
     long len() {
         fseek(file, 0, SEEK_END);
         long size = ftell(file);
