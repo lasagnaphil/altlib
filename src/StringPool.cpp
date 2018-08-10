@@ -9,8 +9,8 @@ StringPool StringPool::inst = StringPool::create();
 
 StringPool StringPool::create() {
     StringPool pool;
-    pool.stringDB = Map<Symbol, ImString>::create();
-    pool.allocStrs = Vec<OwnedString>::create(16);
+    pool.stringDB = Map<Symbol, StrView>::create();
+    pool.allocStrs = Vec<String>::create(16);
     return pool;
 }
 
@@ -23,46 +23,46 @@ void StringPool::free() {
 }
 
 Symbol StringPool::add(const char *str) {
-    ImString imstr = ImString::create(str);
-    return add(imstr);
+    StrView view = StrView::fromRaw(str);
+    return add(view);
 }
 
-Symbol StringPool::add(ImString str) {
-    Symbol symbol {.index = _hash(str)};
-    stringDB.insert(symbol, str);
+Symbol StringPool::add(StrView view) {
+    Symbol symbol {.index = _hash(view)};
+    stringDB.insert(symbol, view);
     return symbol;
 }
 
 Symbol StringPool::heapAdd(const char *str) {
-    auto ownedStr = OwnedString::create(str);
-    allocStrs.push(ownedStr);
-    Symbol symbol {.index = _hash(ownedStr)};
-    stringDB.insert(symbol, ImString::create(ownedStr.data));
+    auto string = String::create(str);
+    allocStrs.push(string);
+    Symbol symbol {.index = _hash(string)};
+    stringDB.insert(symbol, string.getView());
     return symbol;
 }
 
-Symbol StringPool::heapAdd(OwnedString str) {
-    allocStrs.push(str);
-    Symbol symbol {.index = _hash(str)};
-    stringDB.insert(symbol, ImString::create(str.data));
+Symbol StringPool::heapAdd(String string) {
+    allocStrs.push(string);
+    Symbol symbol {.index = _hash(string)};
+    stringDB.insert(symbol, string.getView());
     return symbol;
 }
 
-Symbol StringPool::getSym(ImString str) const {
-    return Symbol {.index = _hash(str)};
+Symbol StringPool::getSym(StrView view) const {
+    return Symbol {.index = _hash(view)};
 }
 
 Symbol StringPool::getSym(const char *str) const {
-    ImString imstr = ImString::create(str);
-    return Symbol {.index = _hash(imstr)};
+    StrView view = StrView::fromRaw(str);
+    return Symbol {.index = _hash(view)};
 }
 
-ImString StringPool::getString(Symbol& sym) const {
+StrView StringPool::getStr(Symbol &sym) const {
     if (sym.index > 0) {
         return stringDB.get(sym);
     }
     else {
-        return ImString::empty();
+        return StrView::empty();
     }
 }
 
@@ -70,22 +70,20 @@ bool StringPool::remove(Symbol& symbol) {
     return stringDB.erase(symbol);
 }
 
-size_t StringPool::_hash(const ImString &string) const {
+size_t StringPool::_hash(StrView view) const {
     size_t res = 1099511628211;
-    for (size_t i = 0; i < string.len; ++i) {
-        res = res ^ string.data[i];
+    for (size_t i = 0; i < view.len; ++i) {
+        res = res ^ view.data[i];
         res = res * 14695981039346656037ull;
     }
     return res;
 }
 
-size_t StringPool::_hash(const OwnedString &string) const {
+size_t StringPool::_hash(String string) const {
     size_t res = 1099511628211;
-    for (size_t i = 0; i < string.len; ++i) {
-        res = res ^ string.data[i];
+    for (size_t i = 0; i < string.buffer.size - 1; ++i) {
+        res = res ^ string.buffer.data[i];
         res = res * 14695981039346656037ull;
     }
     return res;
 }
-
-

@@ -29,7 +29,7 @@ struct Ref {
         return *reinterpret_cast<int64_t*>(this);
     }
 
-    static Ref fromStr(ImString str) {
+    static Ref fromStr(StrView str) {
         assert(str.len == 18);
         int64_t data = strtoll(str.data, NULL, 0);
         return Ref::fromInt64(data);
@@ -40,9 +40,9 @@ struct Ref {
         return Ref::fromInt64(data);
     }
 
-    OwnedString toStr() {
-        OwnedString str = OwnedString::create("", 18);
-        snprintf(str.data, 18, "0x%llx", *reinterpret_cast<uint64_t*>(this));
+    String toStr() {
+        String str = String::create("", 18);
+        snprintf(str.data(), 18, "0x%llx", *reinterpret_cast<uint64_t*>(this));
         return str;
     }
 };
@@ -181,11 +181,11 @@ struct Storage {
     static Storage<T> loadFromFile(const char* filename) {
         using namespace json;
         File file = File::open(filename, "rb+").unwrap();
-        OwnedString str = file.readAll().unwrap();
+        String str = file.readAll().unwrap();
         defer {str.free();};
         file.close();
 
-        Value root = Value::parse(str.data).unwrap();
+        Value root = Value::parse(str.data()).unwrap();
 
         Storage<T> storage;
         storage.deserialize(root);

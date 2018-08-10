@@ -11,14 +11,26 @@
 #include "String.h"
 
 struct Err {
-    OwnedString str;
+    String msg;
     static Err create(const char* message) {
         Err err;
-        err.str = OwnedString::create(message);
+        err.msg = String::create(message);
         return err;
     }
+    static Err create(String string) {
+        Err err;
+        err.msg = string;
+        return err;
+    }
+
+    void consume() {
+        log_error(msg.buffer.data);
+        msg.free();
+        exit(EXIT_FAILURE);
+    }
+
     void free() {
-        str.free();
+        msg.free();
     }
 };
 
@@ -44,23 +56,27 @@ struct Result {
         return result;
     }
 
-    static Result err(const char* errorMsg) {
+    static Result err(const char* str) {
         Result result;
-        result.error = Error::create(errorMsg);
+        result.error = Error::create(str);
+        result.isValid = false;
+        return result;
+    }
+    static Result err(String string) {
+        Result result;
+        result.error = Error::create(string);
         result.isValid = false;
         return result;
     }
 
     Value unwrap() {
-        assert(isValid);
         if (isValid) return value;
         else {
-            log_error(error.str.data);
-            exit(1);
+            error.consume();
         }
     }
 
-    ~Result() {
+    void free() {
         if (!isValid) { error.free(); }
     }
 };

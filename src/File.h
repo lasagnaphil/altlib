@@ -19,22 +19,27 @@ struct File {
         File file;
         file.file = fopen(filename, permissions);
         if (file.file == NULL) {
-            return Result<File, Err>::err(strerror(errno));
+            auto errorStr = String::fmt(
+                    "Error while loading file %s with permissions %s:\n    %s",
+                    filename, permissions, strerror(errno));
+            return Result<File, Err>::err(errorStr);
         }
         return Result<File, Err>::ok(file);
     }
 
-    Result<OwnedString, Err> readAll() {
+    Result<String, Err> readAll() {
         fseek(file, 0, SEEK_END);
         long size = ftell(file);
         fseek(file, 0, SEEK_SET);
-        OwnedString str = OwnedString::create("", size);
-        if (size != fread(str.data, sizeof(char), size, file)) {
+        String str = String::create(size);
+        char* data = str.data();
+        if (size != fread(data, sizeof(char), size, file)) {
             str.free();
-            return Result<OwnedString, Err>::err(strerror(errno));
+            auto errorStr = String::fmt("Error while reading file:\n    %s", strerror(errno));
+            return Result<String, Err>::err(errorStr);
         }
-        str.data[size] = 0;
-        return Result<OwnedString, Err>::ok(str);
+        data[size] = 0;
+        return Result<String, Err>::ok(str);
     }
 
     long len() {
@@ -45,7 +50,8 @@ struct File {
     };
 
     bool writeAll(const char *data) {
-        fputs(data, file);
+        int rc = fputs(data, file);
+        return rc != EOF;
     }
 
     void close() {

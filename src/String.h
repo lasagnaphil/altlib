@@ -34,90 +34,79 @@ static int vasprintf_alt(char **strp, const char *fmt, va_list ap) {
     return r;
 }
 
-struct ImString {
-    size_t len;
+struct StrView {
     const char* data;
-    static ImString create(const char* str) {
-        return ImString {
-            .len = strlen(str),
-            .data = str
-        };
+    size_t len;
+
+    static StrView fromRaw(const char* str) {
+        return fromRaw(str, strlen(str));
     }
-    static ImString empty() {
-        return ImString {
-            .len = 0,
-            .data = ""
+
+    static StrView fromRaw(const char* str, size_t len) {
+        return StrView {
+            .data = str,
+            .len = len
         };
     }
 
-    inline bool operator==(ImString other) const {
+    static const StrView empty() {
+        return StrView::fromRaw("");
+    }
+
+    inline bool operator==(StrView other) const {
         if (other.len != len) return false;
         return memcmp(other.data, data, len) == 0;
     }
 };
 
 struct String {
-    size_t len;
-    char* data;
-    static String create(char* str) {
-        return String {
-            .len = strlen(str),
-            .data = str
-        };
+    Vec<char> buffer;
+
+    static String create(const char* str) {
+        return String::create(str, strlen(str));
     }
-    ImString toImmutable() {
-        return ImString {
-                .len = len,
-                .data = data
-        };
+
+    static String create(const char* str, size_t len) {
+        String string;
+        string.buffer = Vec<char>::create(len + 1);
+        memcpy(string.buffer.data, str, (len + 1) * sizeof(char));
+        return string;
+    }
+
+    static String create(size_t len) {
+        String string;
+        string.buffer = Vec<char>::create(len + 1);
+        return string;
+    }
+
+    static String fmt(const char* fmt, ...) {
+        char* str;
+        va_list ap;
+        va_start(ap, fmt);
+        int r = vasprintf_alt(&str, fmt, ap);
+        va_end(ap);
+        return String::create(str);
+    }
+
+    void free() {
+        buffer.free();
+    }
+
+    char* data() const {
+        return buffer.data;
+    }
+
+    size_t len() const {
+        return buffer.size - 1;
+    }
+
+    StrView getView() const {
+        return StrView::fromRaw(buffer.data, buffer.size - 1);
     }
 
     inline bool operator==(String other) const {
-        if (other.len != len) return false;
-        return memcmp(other.data, data, len) == 0;
-    }
-};
-
-struct OwnedString {
-    size_t len;
-    char* data;
-    static OwnedString create(const char* str) {
-        size_t len = strlen(str);
-        char* heapStr = new char[len + 1];
-        strcpy(heapStr, str);
-        return OwnedString {
-            .len = len,
-            .data = heapStr
-        };
-    }
-    static OwnedString create(const char* str, size_t len) {
-        char* heapStr = new char[len + 1];
-        strcpy(heapStr, str);
-        return OwnedString {
-            .len = len,
-            .data = heapStr
-        };
-    }
-    static OwnedString create(size_t len) {
-        char* heapStr = new char[len + 1];
-        return OwnedString {
-            .len = len,
-            .data = heapStr
-        };
-    }
-    static OwnedString fmt(const char* fmt, ...) {
-        char** str;
-        va_list ap;
-        va_start(ap, fmt);
-        int r = vasprintf_alt(str, fmt, ap);
-        va_end(ap);
-        return OwnedString {
-            .len = strlen(*str),
-            .data = *str
-        };
-    }
-    void free() {
-        delete[] data;
+        if (other.buffer.size != buffer.size) return false;
+        return memcmp(other.buffer.data, buffer.data, buffer.size) == 0;
     }
 };
 

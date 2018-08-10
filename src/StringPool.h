@@ -9,37 +9,37 @@
 #include "String.h"
 
 struct Symbol;
-struct ImString;
-struct OwnedString;
+struct StrView;
+struct String;
 
 struct StringPool {
 
     static StringPool inst;
 
-    Map<Symbol, ImString> stringDB;
-    Vec<OwnedString> allocStrs;
+    Map<Symbol, StrView> stringDB;
+    Vec<String> allocStrs;
 
     static StringPool create();
 
     void free();
 
     Symbol add(const char* str);
-    Symbol add(ImString str);
+    Symbol add(StrView str);
 
     Symbol heapAdd(const char* str);
-    Symbol heapAdd(OwnedString str);
+    Symbol heapAdd(String str);
 
-    Symbol getSym(ImString str) const;
+    Symbol getSym(StrView str) const;
 
     Symbol getSym(const char* str) const;
 
-    ImString getString(Symbol& sym) const;
+    StrView getStr(Symbol &sym) const;
 
     bool remove(Symbol& symbol);
 
     // implements FNV-1a hash algorithm
-    size_t _hash(const ImString& string) const;
-    size_t _hash(const OwnedString& string) const;
+    size_t _hash(StrView string) const;
+    size_t _hash(String string) const;
 };
 
 

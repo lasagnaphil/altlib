@@ -20,19 +20,19 @@ TEST_CASE("Symbol/StringPool works!", "[String]") {
     SECTION("Create and use symbols") {
         StringPool pool = StringPool::create();
         defer {pool.free();};
-        Symbol sym1 = pool.add(ImString::create("one"));
+        Symbol sym1 = pool.add(StrView::fromRaw("one"));
         Symbol sym2 = pool.add("two");
         Symbol sym3 = pool.add("three");
 
-        Symbol otherSym1 = pool.getSym(ImString::create("one"));
-        Symbol otherSym2 = pool.getSym(ImString::create("two"));
-        Symbol otherSym3 = pool.getSym(ImString::create("three"));
+        Symbol otherSym1 = pool.getSym(StrView::fromRaw("one"));
+        Symbol otherSym2 = pool.getSym(StrView::fromRaw("two"));
+        Symbol otherSym3 = pool.getSym(StrView::fromRaw("three"));
         REQUIRE(sym1 == otherSym1);
         REQUIRE(sym2 == otherSym2);
         REQUIRE(sym3 == otherSym3);
-        REQUIRE(pool.getString(sym1) == ImString::create("one"));
-        REQUIRE(pool.getString(sym2) == ImString::create("two"));
-        REQUIRE(pool.getString(sym3) == ImString::create("three"));
+        REQUIRE(pool.getStr(sym1) == StrView::fromRaw("one"));
+        REQUIRE(pool.getStr(sym2) == StrView::fromRaw("two"));
+        REQUIRE(pool.getStr(sym3) == StrView::fromRaw("three"));
     }
 }
 
