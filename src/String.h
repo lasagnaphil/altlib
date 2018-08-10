@@ -33,6 +33,7 @@ static int vasprintf_alt(char **strp, const char *fmt, va_list ap) {
     *strp = str;
     return r;
 }
+
 struct ImString {
     size_t len;
     const char* data;
@@ -51,7 +52,7 @@ struct ImString {
 
     inline bool operator==(ImString other) const {
         if (other.len != len) return false;
-        return strcmp(other.data, data) == 0;
+        return memcmp(other.data, data, len) == 0;
     }
 };
 
@@ -73,7 +74,7 @@ struct String {
 
     inline bool operator==(String other) const {
         if (other.len != len) return false;
-        return strcmp(other.data, data) == 0;
+        return memcmp(other.data, data, len) == 0;
     }
 };
 
