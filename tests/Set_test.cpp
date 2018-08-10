@@ -34,4 +34,21 @@ TEST_CASE("Set works", "[Set]") {
         REQUIRE(set.has(42));
         REQUIRE(!set.has(43));
     }
+    SECTION("insert and remove") {
+        auto set = Set<int>::create();
+        defer {set.free();};
+
+        for (int i = 0; i < 100; ++i) {
+            set.insert(i);
+        }
+        for (int i = 50; i < 100; ++i) {
+            set.remove(i);
+        }
+        for (int i = 0; i < 50; ++i) {
+            REQUIRE(set.has(i));
+        }
+        for (int i = 50; i < 100; ++i) {
+            REQUIRE(!set.has(i));
+        }
+    }
 }

@@ -66,4 +66,21 @@ TEST_CASE("Map works", "[Map]") {
         REQUIRE(map.size() == 100);
     }
 
+    SECTION("MAP_FOREACH macro") {
+        auto map = Map<int, int>::create();
+        defer {map.free();};
+        for (int i = 0; i < 100; ++i) {
+            map[i] = i;
+        }
+        int buffer[100];
+        for (int i = 0; i < 100; ++i) {
+            buffer[i] = -1;
+        }
+        MAP_FOREACH(map, key, value, {
+            buffer[key] = value;
+        });
+        for (int i = 0; i < 100; ++i) {
+            REQUIRE(buffer[i] == i);
+        }
+    }
 }
