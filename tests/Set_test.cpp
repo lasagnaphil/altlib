@@ -22,4 +22,16 @@ TEST_CASE("Set works", "[Set]") {
         }
         REQUIRE(!set.has(100));
     }
+    SECTION("insert duplicates") {
+        auto set = Set<int>::create();
+        defer {set.free();};
+
+        for (int i = 0; i < 100; ++i) {
+            set.insert(42);
+        }
+
+        REQUIRE(set.size() == 1);
+        REQUIRE(set.has(42));
+        REQUIRE(!set.has(43));
+    }
 }

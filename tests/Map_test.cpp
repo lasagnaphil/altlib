@@ -57,12 +57,13 @@ TEST_CASE("Map works", "[Map]") {
     SECTION("insert using index operator") {
         auto map = Map<int, int>::create();
         defer {map.free();};
-        for (int i = 0; i < 8; ++i) {
-            map[i] = i + 1;
+        for (int i = 0; i < 100; ++i) {
+            map[i] = i;
         }
-        for (int i = 0; i < 8; ++i) {
-            REQUIRE(map[i] == i + 1);
+        for (int i = 0; i < 100; ++i) {
+            REQUIRE(map[i] == i);
         }
-        REQUIRE(map.size() == 8);
+        REQUIRE(map.size() == 100);
     }
+
 }

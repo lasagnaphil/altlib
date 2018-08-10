@@ -23,9 +23,9 @@ static inline size_t rotr32(size_t n, unsigned int c) {
 
 #define MAP_FOREACH(__map, __key, __value, __CODE) \
 for (int __i = 0; __i < __map._bucketCount; __i++) { \
-    if (__map._states[__i] == State::FILLED) { \
-        auto& __key = __map._buckets[i].key; \
-        auto& __value = __map._buckets[i].value; \
+    if ((uint8_t)(__map._states[__i]) == 2) { \
+        auto& __key = __map._buckets[__i].key; \
+        auto& __value = __map._buckets[__i].value; \
         __CODE \
     } \
 }
@@ -70,18 +70,13 @@ struct Map {
         size_t newBucketCount = 4;
         while (newBucketCount < requiredBuckets) { newBucketCount *= 2; }
 
-        Bucket* newBuckets = new Bucket[newBucketCount];
-        State* newStates = new State[newBucketCount];
-        assert(newBuckets);
-        assert(newStates);
-
         size_t oldBucketCount = _bucketCount;
         Bucket* oldBuckets = _buckets;
         State* oldStates = _states;
 
         _bucketCount = newBucketCount;
-        _buckets = newBuckets;
-        _states = newStates;
+        _buckets = new Bucket[newBucketCount];
+        _states = new State[newBucketCount];
 
         for (size_t i = 0; i < _bucketCount; ++i) {
             _states[i] = State::INACTIVE;
@@ -92,12 +87,15 @@ struct Map {
                 auto srcBucket = oldBuckets[i];
                 auto dstBucketIdx = _findEmptyBucket(srcBucket.key);
                 _buckets[dstBucketIdx] = srcBucket;
+                _buckets[dstBucketIdx].hash = dstBucketIdx;
                 _states[dstBucketIdx] = State::FILLED;
             }
         }
 
-        delete[] oldBuckets;
-        delete[] oldStates;
+        if (oldBucketCount > 0) {
+            delete[] oldBuckets;
+            delete[] oldStates;
+        }
     }
 
     void clear() {
@@ -230,7 +228,7 @@ struct Map {
     }
 
     size_t _findOrAllocate(const K& key) {
-        size_t start = _hash(key) & _bucketCount;
+        size_t start = _hash(key) % _bucketCount;
         size_t hole = (size_t)-1;
         size_t i;
         bool foundHole = false;
@@ -242,7 +240,7 @@ struct Map {
                     return i;
                 }
             }
-            else {
+            else if (_states[i] == State::INACTIVE) {
                 if (hole == (size_t)-1 && !foundHole) {
                     hole = i;
                     foundHole = true;
