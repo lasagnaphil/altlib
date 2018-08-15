@@ -70,6 +70,7 @@ struct String {
         String string;
         string.buffer = Vec<char>::create(len + 1);
         memcpy(string.buffer.data, str, (len + 1) * sizeof(char));
+        string.buffer.size = len + 1;
         return string;
     }
 
