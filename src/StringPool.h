@@ -6,7 +6,7 @@
 #define ALTLIB_STRINGPOOL_H
 
 #include "Map.h"
-#include "String.h"
+#include "Str.h"
 
 struct Symbol;
 struct StrView;

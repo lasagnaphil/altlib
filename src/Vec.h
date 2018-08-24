@@ -5,8 +5,8 @@
 #ifndef ALTLIB_VEC_H
 #define ALTLIB_VEC_H
 
-#include <cassert>
-#include <cstring>
+#include <assert.h>
+#include <string.h>
 
 #define FOREACH(__vec, __v, CODE) \
 for (int __i = 0; __i < __vec.size; ++__i) { \
@@ -27,8 +27,8 @@ struct Slice {
 
     static Slice fromRaw(T* data, size_t size) {
         return Slice {
-            .data = data,
-            .size = size
+            data,
+            size
         };
     }
 

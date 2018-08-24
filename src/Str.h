@@ -2,18 +2,18 @@
 // Created by lasagnaphil on 7/10/18.
 //
 
-#include <cstddef>
-#include <cstring>
-
 #ifndef ALTLIB_STRING_H
 #define ALTLIB_STRING_H
 
 #include "Map.h"
 #include "StringPool.h"
 
-#include <cstdio> /* needed for vsnprintf */
-#include <cstdlib> /* needed for malloc-free */
-#include <cstdarg> /* needed for va_list */
+#include <stdio.h> /* needed for vsnprintf */
+#include <stdlib.h> /* needed for malloc-free */
+#include <stdarg.h> /* needed for va_list */
+#include <memory.h>
+#include <stddef.h>
+#include <string.h>
 
 static int _vscprintf_so_alt(const char * format, va_list pargs) {
     int retval;
@@ -44,8 +44,8 @@ struct StrView {
 
     static StrView fromRaw(const char* str, size_t len) {
         return StrView {
-            .data = str,
-            .len = len
+            str,
+            len
         };
     }
 

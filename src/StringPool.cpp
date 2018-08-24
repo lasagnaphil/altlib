@@ -28,7 +28,7 @@ Symbol StringPool::add(const char *str) {
 }
 
 Symbol StringPool::add(StrView view) {
-    Symbol symbol {.index = _hash(view)};
+    Symbol symbol {_hash(view)};
     stringDB.insert(symbol, view);
     return symbol;
 }
@@ -36,25 +36,25 @@ Symbol StringPool::add(StrView view) {
 Symbol StringPool::heapAdd(const char *str) {
     auto string = String::create(str);
     allocStrs.push(string);
-    Symbol symbol {.index = _hash(string)};
+    Symbol symbol {_hash(string)};
     stringDB.insert(symbol, string.getView());
     return symbol;
 }
 
 Symbol StringPool::heapAdd(String string) {
     allocStrs.push(string);
-    Symbol symbol {.index = _hash(string)};
+    Symbol symbol {_hash(string)};
     stringDB.insert(symbol, string.getView());
     return symbol;
 }
 
 Symbol StringPool::getSym(StrView view) const {
-    return Symbol {.index = _hash(view)};
+    return Symbol {_hash(view)};
 }
 
 Symbol StringPool::getSym(const char *str) const {
     StrView view = StrView::fromRaw(str);
-    return Symbol {.index = _hash(view)};
+    return Symbol {_hash(view)};
 }
 
 StrView StringPool::getStr(Symbol &sym) const {

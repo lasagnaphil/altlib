@@ -5,7 +5,7 @@
 #ifndef ALTLIB_TYPEREGISTRY_H
 #define ALTLIB_TYPEREGISTRY_H
 
-#include <cstdint>
+#include <stdint.h>
 
 class TypeRegistry {
 public:

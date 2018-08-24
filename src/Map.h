@@ -132,7 +132,7 @@ struct Map {
         auto i = _findOrAllocate(key);
         if (_states[i] != State::FILLED) {
             _states[i] = State::FILLED;
-            _buckets[i] = Bucket {.key = key, .hash = i};
+            _buckets[i] = Bucket {key, i};
             _size++;
         }
         return _buckets[i].value;
@@ -153,7 +153,7 @@ struct Map {
         _checkExpandNeed();
         size_t i = _findEmptyBucket(key);
         _states[i] = State::FILLED;
-        _buckets[i] = Bucket{.key = key, .hash = i, .value = value};
+        _buckets[i] = Bucket{key, i, value};
         _size++;
     }
 
@@ -165,7 +165,7 @@ struct Map {
         else {
             _checkExpandNeed();
             _states[i] = State::FILLED;
-            _buckets[i] = Bucket{.key = key, .hash = i, .value = value};
+            _buckets[i] = Bucket{key, i, value};
             _size++;
         }
     }

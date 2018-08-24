@@ -6,7 +6,7 @@
 #define ALTLIB_JSON_H
 
 #include "../log.h"
-#include "../String.h"
+#include "../Str.h"
 #include "../Result.h"
 #include "cJSON.h"
 

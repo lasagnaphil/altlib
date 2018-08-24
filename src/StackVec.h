@@ -5,9 +5,9 @@
 #ifndef ALTLIB_STACKVEC_H
 #define ALTLIB_STACKVEC_H
 
-#include <cstddef>
-#include <cassert>
-#include <cstring>
+#include <stddef.h>
+#include <assert.h>
+#include <string.h>
 #include <utility>
 
 template <typename T, unsigned int N>

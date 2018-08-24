@@ -5,8 +5,8 @@
 #ifndef GENGINE_STORAGE_H
 #define GENGINE_STORAGE_H
 
-#include <cassert>
-#include <cstring>
+#include <assert.h>
+#include <string.h>
 
 #include "TypeRegistry.h"
 #include "String.h"

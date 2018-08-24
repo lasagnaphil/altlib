@@ -5,9 +5,9 @@
 #ifndef ALTLIB_FILE_H
 #define ALTLIB_FILE_H
 
-#include <cstdio>
+#include <stdio.h>
 #include <fcntl.h>
-#include <cerrno>
+#include <errno.h>
 #include "Option.h"
 #include "String.h"
 #include "Result.h"

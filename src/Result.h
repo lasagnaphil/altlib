@@ -5,10 +5,10 @@
 #ifndef ALTLIB_RESULT_H
 #define ALTLIB_RESULT_H
 
-#include <cstdio>
-#include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
 #include "log.h"
-#include "String.h"
+#include "Str.h"
 
 struct Err {
     String msg;

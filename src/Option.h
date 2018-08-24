@@ -5,7 +5,7 @@
 #ifndef ALTLIB_OPTION_H
 #define ALTLIB_OPTION_H
 
-#include <cassert>
+#include <assert.h>
 
 template <typename T>
 struct Option {
