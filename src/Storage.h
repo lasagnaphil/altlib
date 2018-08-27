@@ -9,7 +9,7 @@
 #include <string.h>
 
 #include "TypeRegistry.h"
-#include "String.h"
+#include "Str.h"
 #include "Option.h"
 #include "Symbol.h"
 #include "File.h"
@@ -92,7 +92,7 @@ struct Storage {
     void expand(uint32_t newCapacity) {
         ItemNode* tempList = nodes;
         nodes = new ItemNode[newCapacity];
-        std::memcpy(nodes, tempList, sizeof(ItemNode) * capacity);
+        memcpy(nodes, tempList, sizeof(ItemNode) * capacity);
         for (uint32_t i = capacity; i < newCapacity; ++i) {
             nodes[i].nextIndex = i + 1;
             nodes[i].generation = 0;

@@ -85,7 +85,7 @@ struct Vec {
 
     Vec<T> clone() {
         Vec vec = Vec::create(capacity);
-        std::memcpy(vec.data, data, sizeof(T) * capacity);
+        memcpy(vec.data, data, sizeof(T) * capacity);
         vec.size = size;
         return vec;
     }

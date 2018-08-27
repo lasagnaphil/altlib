@@ -9,7 +9,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include "Option.h"
-#include "String.h"
+#include "Str.h"
 #include "Result.h"
 
 struct File {
