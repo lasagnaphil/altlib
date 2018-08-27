@@ -10,6 +10,8 @@
 #include "log.h"
 #include "Str.h"
 
+struct Ok {};
+
 struct Err {
     String msg;
     static Err create(const char* message) {
@@ -80,4 +82,5 @@ struct Result {
         if (!isValid) { error.free(); }
     }
 };
+
 #endif //ALTLIB_RESULT_H
