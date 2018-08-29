@@ -4,7 +4,7 @@
 
 #include "catch.hpp"
 #include "Defer.h"
-#include "String.h"
+#include "Str.h"
 #include "Symbol.h"
 
 TEST_CASE("String works!", "[String]") {
