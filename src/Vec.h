@@ -137,6 +137,11 @@ struct Vec {
         shrink(size);
     }
 
+    void resize(size_t newSize) {
+        reserve(newSize);
+        size = newSize;
+    }
+
     void shrink(size_t newCapacity) {
         if (newCapacity >= capacity) { return; }
         T* newData = new T[newCapacity];

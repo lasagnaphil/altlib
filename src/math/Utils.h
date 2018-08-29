@@ -5,21 +5,31 @@
 #ifndef ALTLIB_UTILS_H
 #define ALTLIB_UTILS_H
 
+#include <math.h>
+
 namespace utils {
 
 template <typename T>
-T max(T a, T b) {
+inline T max(T a, T b) {
     return (a > b)? a : b;
 }
 
 template <typename T>
-T min(T a, T b) {
+inline T min(T a, T b) {
     return (a < b)? a : b;
 }
 
 template <typename T>
-T clamp(T value, T lower, T upper) {
+inline T clamp(T value, T lower, T upper) {
     return max(lower, min(value, upper));
+}
+
+inline float radians(float deg) {
+    return deg * M_PI / 180;
+}
+
+inline float degrees(float rad) {
+    return rad * 180 / M_PI;
 }
 
 }

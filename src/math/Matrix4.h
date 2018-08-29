@@ -9,6 +9,7 @@
 #include <cstring>
 #include "Vector4.h"
 #include "Vector3.h"
+#include "Utils.h"
 
 template <typename T>
 struct Matrix4 {
@@ -54,6 +55,26 @@ struct Matrix4 {
 
     static Matrix4 one() {
         return Matrix4::create(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+
+    static Matrix4 lookAt(const Vector3<T>& from,
+            const Vector3<T>& to,
+            const Vector3<T>& upVec);
+
+    static Matrix4 perspective(float l, float r, float b, float t, float n, float f) {
+        return Matrix4::create(
+                2 * n / (r - l), 0, (r + l) / (r - l), 0,
+                0, 2 * n / (t - b), (t + b) / (t - b), 0,
+                0, 0, -(f + n) / (f - n), -2 * f * n / (f - n),
+                0, 0, -1, 0
+        );
+    }
+
+    static Matrix4 perspective(float fovY, float aspect, float front, float back) {
+        float tangent = tanf(utils::radians(fovY/2));
+        float height = front * tangent;
+        float width = height * aspect;
+        return Matrix4::perspective(-width, width, -height, height, front, back);
     }
 
     Vector4<T>& operator[](int i) { return p[i]; }

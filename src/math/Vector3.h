@@ -39,6 +39,25 @@ struct Vector3 {
 
     T& operator[](int i) { return p[i]; }
     const T& operator[](int i) const { return p[i]; }
+
+    Vector3 normalize() const;
+    float mag() const;
+
+    inline float mag2() const {
+        return x * x + y * y + z * z;
+    }
+
+    T dot(const Vector3& other) const {
+        return x * other.x + y * other.y + z * other.z;
+    }
+
+    Vector3 cross(const Vector3& other) const {
+        return Vector3::create(
+                y * other.z - z * other.y,
+                z * other.x - x * other.z,
+                x * other.y - y * other.x
+        );
+    }
 };
 
 
@@ -60,6 +79,11 @@ Vector3<T> operator*(Vector3<T> lhs, const Vector3<T>& rhs) {
 template <typename T>
 Vector3<T> operator*(T k, const Vector3<T>& v) {
     return Vector3<T> {k * v.x, k * v.y, k * v.z};
+}
+
+template <typename T>
+Vector3<T> operator/(const Vector3<T>& v, T k) {
+    return Vector3<T> {v.x / k, v.y / k, v.z / k};
 }
 
 using Vector3f = Vector3<float>;
