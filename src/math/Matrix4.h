@@ -62,12 +62,22 @@ struct Matrix4 {
             const Vector3<T>& upVec);
 
     static Matrix4 perspective(float l, float r, float b, float t, float n, float f) {
+
+#ifdef ALTLIB_VULKAN
+        return Matrix4::create(
+                2 * n / (r - l), 0, (r + l) / (r - l), 0,
+                0, 2 * n / (t - b), (t + b) / (t - b), 0,
+                0, 0, -f / (f - n), -(f * n) / (f - n),
+                0, 0, -1, 0
+        );
+#else
         return Matrix4::create(
                 2 * n / (r - l), 0, (r + l) / (r - l), 0,
                 0, 2 * n / (t - b), (t + b) / (t - b), 0,
                 0, 0, -(f + n) / (f - n), -2 * f * n / (f - n),
                 0, 0, -1, 0
         );
+#endif
     }
 
     static Matrix4 perspective(float fovY, float aspect, float front, float back) {
