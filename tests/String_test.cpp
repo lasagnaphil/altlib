@@ -4,8 +4,7 @@
 
 #include "catch.hpp"
 #include "Defer.h"
-#include "Str.h"
-#include "Symbol.h"
+#include "StringPool.h"
 
 TEST_CASE("String works!", "[String]") {
     SECTION("Is POD") {

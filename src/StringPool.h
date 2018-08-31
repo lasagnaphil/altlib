@@ -6,11 +6,11 @@
 #define ALTLIB_STRINGPOOL_H
 
 #include "Map.h"
-#include "Str.h"
+#include "Vec.h"
 
-struct Symbol;
 struct StrView;
 struct String;
+struct Symbol;
 
 struct StringPool {
 

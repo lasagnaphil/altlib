@@ -11,7 +11,6 @@
 #include "TypeRegistry.h"
 #include "Str.h"
 #include "Option.h"
-#include "Symbol.h"
 #include "File.h"
 #include "Defer.h"
 #include "json/Json.h"

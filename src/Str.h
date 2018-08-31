@@ -5,8 +5,7 @@
 #ifndef ALTLIB_STRING_H
 #define ALTLIB_STRING_H
 
-#include "Map.h"
-#include "StringPool.h"
+#include "Vec.h"
 
 #include <stdio.h> /* needed for vsnprintf */
 #include <stdlib.h> /* needed for malloc-free */
@@ -59,6 +58,7 @@ struct StrView {
     }
 };
 
+
 struct String {
     Vec<char> buffer;
 
@@ -108,6 +108,18 @@ struct String {
     inline bool operator==(String other) const {
         if (other.buffer.size != buffer.size) return false;
         return memcmp(other.buffer.data, buffer.data, buffer.size) == 0;
+    }
+};
+
+struct Symbol {
+    size_t index;
+
+    inline static Symbol empty() {
+        return Symbol {0};
+    }
+
+    inline bool operator==(Symbol other) const {
+        return other.index == index;
     }
 };
 

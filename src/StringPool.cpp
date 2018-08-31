@@ -3,7 +3,7 @@
 //
 
 #include "StringPool.h"
-#include "Symbol.h"
+#include "Str.h"
 
 StringPool StringPool::inst = StringPool::create();
 
