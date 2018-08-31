@@ -42,7 +42,12 @@ struct Set {
     size_t size() const { return items.size(); }
 
     void insert(const T& item) {
-        items[item] = Empty {};
+        if (items.contains(item)) {
+            items.set(item, Empty{});
+        }
+        else {
+            items.insert(item, Empty{});
+        }
     }
 
     void remove(const T& item) {

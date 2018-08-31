@@ -5,6 +5,8 @@
 #ifndef ALTLIB_OPTION_H
 #define ALTLIB_OPTION_H
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 
 template <typename T>
