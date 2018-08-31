@@ -19,6 +19,11 @@ struct Vector3 {
         vec.x = x; vec.y = y; vec.z = z;
         return vec;
     }
+    static inline Vector3 fromRaw(T* arr) {
+        Vector3 vec;
+        vec.p[0] = arr[0]; vec.p[1] = arr[1]; vec.p[2] = arr[2];
+        return vec;
+    }
     static inline Vector3 zero() {
         Vector3 vec;
         vec.x = 0; vec.y = 0; vec.z = 0;

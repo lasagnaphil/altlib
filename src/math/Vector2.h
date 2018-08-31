@@ -20,6 +20,11 @@ struct Vector2 {
         vec.x = x; vec.y = y;
         return vec;
     }
+    static inline Vector2 fromRaw(T* arr) {
+        Vector2 vec;
+        vec.p[0] = arr[0]; vec.p[1] = arr[1];
+        return vec;
+    }
     static inline Vector2 zero() {
         Vector2 vec;
         vec.x = 0; vec.y = 0;
