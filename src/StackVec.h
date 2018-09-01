@@ -10,6 +10,8 @@
 #include <string.h>
 #include <utility>
 
+#include "Vec.h"
+
 template <typename T, unsigned int N>
 struct StackVec {
     T data[N];
@@ -36,6 +38,10 @@ struct StackVec {
         vec.size = size;
         memcpy(vec.data, data, sizeof(T) * size);
         return vec;
+    }
+
+    Slice<T> toSlice() {
+        return Slice<T>::fromRaw(data, size);
     }
 
     void push(const T& elem) {
