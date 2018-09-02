@@ -103,7 +103,7 @@ struct Storage {
         delete[] tempList;
     }
 
-    T& insert(T data, Ref<T> *ref_ptr = nullptr) {
+    T& newSlot(Ref<T> *ref_ptr = nullptr) {
         // if the item list is full
         if (firstAvailable == capacity) {
             expand(capacity * 2);
@@ -119,8 +119,6 @@ struct Storage {
 
         count++;
 
-        node.item = data;
-
         // also return the reference object of the resource
         if (ref_ptr) {
             ref_ptr->index = newIndex;
@@ -129,6 +127,12 @@ struct Storage {
         }
 
         return node.item;
+    }
+
+    T& insert(T data, Ref<T> *ref_ptr = nullptr) {
+        T& item = newSlot(ref_ptr);
+        item = data;
+        return item;
     }
 
     bool has(Ref<T> ref) const {
