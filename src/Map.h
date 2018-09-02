@@ -237,13 +237,6 @@ struct HashFn<StrView> {
     }
 };
 
-template <>
-struct HashFn<Symbol> {
-    size_t operator()(const Symbol& symbol) const {
-        return XXH64(&symbol.index, sizeof(symbol.index), 0);
-    }
-};
-
 /// Explicit specialization for bool.
 DEFAULT_HASHFN(bool)
 

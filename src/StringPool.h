@@ -7,39 +7,33 @@
 
 #include "Map.h"
 #include "Vec.h"
+#include "strpool.h"
+
+#define SYM(__str) StringPool::inst.inject(__str)
+#define STR(__sym) StringPool::inst.getStr(__sym)
 
 struct StrView;
 struct String;
-struct Symbol;
+
+using Symbol = STRPOOL_U64;
 
 struct StringPool {
 
     static StringPool inst;
 
-    Map<Symbol, StrView> stringDB;
-    Vec<String> allocStrs;
+    strpool_t pool;
+    strpool_config_t config;
 
     static StringPool create();
 
     void free();
 
-    Symbol add(const char* str);
-    Symbol add(StrView str);
+    Symbol inject(const char* str);
+    Symbol inject(StrView str);
 
-    Symbol heapAdd(const char* str);
-    Symbol heapAdd(String str);
+    StrView getStr(Symbol sym) const;
 
-    Symbol getSym(StrView str) const;
-
-    Symbol getSym(const char* str) const;
-
-    StrView getStr(Symbol &sym) const;
-
-    bool remove(Symbol& symbol);
-
-    // implements FNV-1a hash algorithm
-    size_t _hash(StrView string) const;
-    size_t _hash(String string) const;
+    void remove(Symbol symbol);
 };
 
 

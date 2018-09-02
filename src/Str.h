@@ -111,16 +111,4 @@ struct String {
     }
 };
 
-struct Symbol {
-    size_t index;
-
-    inline static Symbol empty() {
-        return Symbol {0};
-    }
-
-    inline bool operator==(Symbol other) const {
-        return other.index == index;
-    }
-};
-
 #endif //ALTLIB_STRING_H

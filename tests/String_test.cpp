@@ -19,13 +19,13 @@ TEST_CASE("Symbol/StringPool works!", "[String]") {
     SECTION("Create and use symbols") {
         StringPool pool = StringPool::create();
         defer {pool.free();};
-        Symbol sym1 = pool.add(StrView::fromRaw("one"));
-        Symbol sym2 = pool.add("two");
-        Symbol sym3 = pool.add("three");
+        Symbol sym1 = pool.inject(StrView::fromRaw("one"));
+        Symbol sym2 = pool.inject("two");
+        Symbol sym3 = pool.inject("three");
 
-        Symbol otherSym1 = pool.getSym(StrView::fromRaw("one"));
-        Symbol otherSym2 = pool.getSym(StrView::fromRaw("two"));
-        Symbol otherSym3 = pool.getSym(StrView::fromRaw("three"));
+        Symbol otherSym1 = pool.inject(StrView::fromRaw("one"));
+        Symbol otherSym2 = pool.inject(StrView::fromRaw("two"));
+        Symbol otherSym3 = pool.inject(StrView::fromRaw("three"));
         REQUIRE(sym1 == otherSym1);
         REQUIRE(sym2 == otherSym2);
         REQUIRE(sym3 == otherSym3);
