@@ -75,6 +75,7 @@ struct Result {
         if (isValid) return value;
         else {
             error.consume();
+            return value; // actually not called
         }
     }
 

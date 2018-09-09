@@ -124,6 +124,7 @@ namespace json {
                     exit(EXIT_FAILURE);
                 }
             }
+            return Value {field};
         }
 
         Result<const char*, Err> asStr() {
