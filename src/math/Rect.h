@@ -14,10 +14,10 @@ struct Rect {
     T x2, y2;
 
     static Rect create(T x1, T y1, T x2, T y2) {
-        return Rect {.x1 = x1, .y1 = y1, .x2 = x2, .y2 = y2};
+        return Rect {x1, y1, x2, y2};
     }
     static Rect fromSize(T x, T y, T w, T h) {
-        return Rect {.x1 = x, .y1 = y, .x2 = x+w, .y2 = y+h};
+        return Rect {x, y, x+w, y+h};
     }
 
     T width() { return x2 - x1; }
