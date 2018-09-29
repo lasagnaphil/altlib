@@ -106,6 +106,15 @@ struct Vec {
         size++;
     }
 
+    T& newItem() {
+        if (size >= capacity) {
+            reserve(capacity > 0? 2 * capacity : 1);
+        }
+        T& item = data[size];
+        size++;
+        return item;
+    }
+
     T pop() {
         assert(size > 0);
         size--;

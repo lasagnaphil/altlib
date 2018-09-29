@@ -58,64 +58,6 @@ Vector4<T> catmullRom(double a) {
     return coeffs;
 }
 
-// from http://www.realtimerendering.com/resources/GraphicsGems/gemsv/ch3-3/tricubic.c
-template <typename T>
-T triCubic(Vector3<T> p, T *volume, int xDim, int yDim, int zDim)
-{
-    int xyDim = xDim * yDim;
-
-    int x = (int) p.x, y = (int) p.y, z = (int) p.z;
-    if (x < 0 || x >= xDim || y < 0 || y >= yDim || z < 0 || z >= zDim)
-        return (0);
-
-    T dx = p.x - (T) x, dy = p.y - (T) y, dz = p.z - (T) z;
-    T* pv = volume + (x - 1) + (y - 1) * xDim + (z - 1) * xyDim;
-
-#define CUBE(x)   ((x) * (x) * (x))
-#define SQR(x)    ((x) * (x))
-
-    /* factors for Catmull-Rom interpolation */
-    T u[4], v[4], w[4];
-    T r[4], q[4];
-    T vox = 0;
-
-    u[0] = -0.5f * CUBE (dx) + SQR (dx) - 0.5f * dx;
-    u[1] =  1.5f * CUBE (dx) - 2.5f * SQR (dx) + 1;
-    u[2] = -1.5f * CUBE (dx) + 2 * SQR (dx) + 0.5f * dx;
-    u[3] =  0.5f * CUBE (dx) - 0.5f * SQR (dx);
-
-    v[0] = -0.5f * CUBE (dy) + SQR (dy) - 0.5f * dy;
-    v[1] =  1.5f * CUBE (dy) - 2.5f * SQR (dy) + 1;
-    v[2] = -1.5f * CUBE (dy) + 2 * SQR (dy) + 0.5f * dy;
-    v[3] =  0.5f * CUBE (dy) - 0.5f * SQR (dy);
-
-    w[0] = -0.5f * CUBE (dz) + SQR (dz) - 0.5f * dz;
-    w[1] =  1.5f * CUBE (dz) - 2.5f * SQR (dz) + 1;
-    w[2] = -1.5f * CUBE (dz) + 2 * SQR (dz) + 0.5f * dz;
-    w[3] =  0.5f * CUBE (dz) - 0.5f * SQR (dz);
-
-    for (int k = 0; k < 4; k++)
-    {
-        q[k] = 0;
-        for (int j = 0; j < 4; j++)
-        {
-            r[j] = 0;
-            for (int i = 0; i < 4; i++)
-            {
-                r[j] += u[i] * *pv;
-                pv++;
-            }
-            q[k] += v[j] * r[j];
-            pv += xDim - 4;
-        }
-        vox += w[k] * q[k];
-        pv += xyDim - 4 * xDim;
-    }
-    return (T)(vox < 0 ? 0.0 : vox);
-
-#undef CUBE
-#undef SQR
-}
 
 }
 
