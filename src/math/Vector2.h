@@ -72,5 +72,6 @@ Vector2<T> operator*(T k, const Vector2<T>& v) {
 
 using Vector2f = Vector2<float>;
 using Vector2i = Vector2<int>;
+using Vector2d = Vector2<double>;
 
 #endif //ALTLIB_VECTOR2_H

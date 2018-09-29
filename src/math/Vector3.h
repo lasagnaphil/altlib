@@ -63,6 +63,11 @@ struct Vector3 {
                 x * other.y - y * other.x
         );
     }
+
+    template <typename U>
+    Vector3<U> cast() const {
+        return Vector3<U>::create(static_cast<U>(x), static_cast<U>(y), static_cast<U>(z));
+    }
 };
 
 
@@ -93,5 +98,6 @@ Vector3<T> operator/(const Vector3<T>& v, T k) {
 
 using Vector3f = Vector3<float>;
 using Vector3i = Vector3<int>;
+using Vector3d = Vector3<double>;
 
 #endif //ALTLIB_VECTOR3_H

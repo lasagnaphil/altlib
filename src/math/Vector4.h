@@ -66,5 +66,6 @@ Vector4<T> operator*(T k, const Vector4<T>& v) {
 
 using Vector4f = Vector4<float>;
 using Vector4i = Vector4<int>;
+using Vector4d = Vector4<double>;
 
 #endif //ALTLIB_VECTOR4_H
