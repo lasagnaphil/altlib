@@ -7,6 +7,10 @@
 
 #include "Map.h"
 #include "Vec.h"
+
+#ifdef _MSC_VER
+#define STRPOOL_STRNICMP( s1, s2, len ) ( _strnicmp( s1, s2, len ) )
+#endif
 #include "strpool.h"
 
 #define SYM(__str) StringPool::inst.inject(__str)

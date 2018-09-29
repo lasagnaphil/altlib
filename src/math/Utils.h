@@ -5,6 +5,10 @@
 #ifndef ALTLIB_UTILS_H
 #define ALTLIB_UTILS_H
 
+#ifndef M_PI
+#define M_PI 3.1415926535
+#endif
+
 #include <math.h>
 #include "Vector3.h"
 #include "Vector4.h"
