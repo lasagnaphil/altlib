@@ -6,7 +6,7 @@
 #define ALTLIB_UTILS_H
 
 #ifndef M_PI
-#define M_PI 3.1415926535
+#define M_PI 3.14159265358979323846
 #endif
 
 #include <math.h>
@@ -31,11 +31,19 @@ inline T clamp(T value, T lower, T upper) {
 }
 
 inline float radians(float deg) {
-    return deg * M_PI / 180;
+    return deg * M_PI / 180.0;
 }
 
 inline float degrees(float rad) {
-    return rad * 180 / M_PI;
+    return rad * 180.0 / M_PI;
+}
+
+inline double radians(double deg) {
+    return deg * M_PI / 180.0;
+}
+
+inline double degrees(double rad) {
+    return rad * 180.0 / M_PI;
 }
 
 template <typename T>
@@ -57,7 +65,6 @@ Vector4<T> catmullRom(double a) {
     coeffs.w = -0.5*a*a + 0.5*a*a*a;
     return coeffs;
 }
-
 
 }
 
