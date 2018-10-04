@@ -2,7 +2,13 @@
 // Created by lasagnaphil on 7/29/18.
 //
 
+#include <cmath>
 #include "Vector2.h"
+
+template<>
+double Vector2d::normalize() const {
+    return sqrt(x*x+y*y);
+}
 
 template<>
 void Vector2i::deserialize(json::Value json) {

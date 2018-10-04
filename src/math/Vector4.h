@@ -63,9 +63,10 @@ struct Vector4 {
     T& operator[](int i) { return p[i]; }
     const T& operator[](int i) const { return p[i]; }
 
-    T innerProduct(const Vector4& rhs) {
+    T innerProduct(const Vector4& rhs) const {
         return x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w;
     }
+    T normalize() const;
 };
 
 template <typename T>
