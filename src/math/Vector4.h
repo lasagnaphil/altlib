@@ -35,20 +35,28 @@ struct Vector4 {
     bool operator!=(const Vector4& rhs) const {
         return !(x == rhs.x && y == rhs.y && z == rhs.z && w == rhs.w);
     }
-    Vector4& operator+=(const Vector4& rhs) const {
+    Vector4& operator+=(const Vector4& rhs) {
         x += rhs.x; y += rhs.y; z += rhs.z; w += rhs.w;
         return *this;
     }
-    Vector4& operator-=(const Vector4& rhs) const {
+    Vector4& operator-=(const Vector4& rhs) {
         x -= rhs.x; y -= rhs.y; z -= rhs.z; w -= rhs.w;
         return *this;
     }
-    Vector4& operator*=(const Vector4& rhs) const {
+    Vector4& operator*=(const Vector4& rhs) {
         x *= rhs.x; y *= rhs.y; z *= rhs.z; w *= rhs.w;
         return *this;
     }
-    Vector4& operator/=(const Vector4& rhs) const {
+    Vector4& operator/=(const Vector4& rhs) {
         x /= rhs.x; y /= rhs.y; z /= rhs.z; w /= rhs.w;
+        return *this;
+    }
+    Vector4& operator*=(T k) {
+        x *= k; y *= k; z *= k; w *= k;
+        return *this;
+    }
+    Vector4& operator/=(T k) {
+        x /= k; y /= k; z /= k; w /= k;
         return *this;
     }
 
@@ -78,6 +86,16 @@ Vector4<T> operator*(Vector4<T> lhs, const Vector4<T>& rhs) {
 template <typename T>
 Vector4<T> operator*(T k, const Vector4<T>& v) {
     return Vector4<T> {k * v.x, k * v.y, k * v.z, k * v.w};
+}
+
+template <typename T>
+Vector4<T> operator*(const Vector4<T>& v, T k) {
+    return Vector4<T> {k * v.x, k * v.y, k * v.z, k * v.w};
+}
+
+template <typename T>
+Vector4<T> operator/(const Vector4<T>& v, T k) {
+    return Vector4<T> {v.x / k, v.y / k, v.z / k, v.w / k};
 }
 
 using Vector4f = Vector4<float>;

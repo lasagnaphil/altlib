@@ -58,6 +58,14 @@ struct Vector3 {
         x /= rhs.x; y /= rhs.y; z /= rhs.z;
         return *this;
     }
+    Vector3& operator*=(T k) {
+        x *= k; y *= k; z *= k;
+        return *this;
+    }
+    Vector3& operator/=(T k) {
+        x /= k; y /= k; z /= k;
+        return *this;
+    }
 
     T& operator[](int i) { return p[i]; }
     const T& operator[](int i) const { return p[i]; }
@@ -105,6 +113,11 @@ Vector3<T> operator*(Vector3<T> lhs, const Vector3<T>& rhs) {
 
 template <typename T>
 Vector3<T> operator*(T k, const Vector3<T>& v) {
+    return Vector3<T> {k * v.x, k * v.y, k * v.z};
+}
+
+template <typename T>
+Vector3<T> operator*(const Vector3<T>& v, T k) {
     return Vector3<T> {k * v.x, k * v.y, k * v.z};
 }
 

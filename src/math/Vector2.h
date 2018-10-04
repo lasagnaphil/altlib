@@ -52,6 +52,14 @@ struct Vector2 {
         x /= rhs.x; y /= rhs.y;
         return *this;
     }
+    Vector2& operator*=(T k) {
+        x *= k; y *= k;
+        return *this;
+    }
+    Vector2& operator/=(T k) {
+        x /= k; y /= k;
+        return *this;
+    }
 
     bool operator==(Vector2 other) const {
         return x == other.x && y == other.y;
@@ -85,6 +93,16 @@ Vector2<T> operator*(Vector2<T> lhs, const Vector2<T>& rhs) {
 template <typename T>
 Vector2<T> operator*(T k, const Vector2<T>& v) {
     return Vector2<T> {k * v.x, k * v.y};
+}
+
+template <typename T>
+Vector2<T> operator*(const Vector2<T>& v, T k) {
+    return Vector2<T> {k * v.x, k * v.y};
+}
+
+template <typename T>
+Vector2<T> operator/(const Vector2<T>& v, T k) {
+    return Vector2<T> {v.x / k, v.y / k};
 }
 
 using Vector2f = Vector2<float>;
