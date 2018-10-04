@@ -42,6 +42,23 @@ struct Vector3 {
         return !(x == other.x && y == other.y && z == other.z);
     }
 
+    Vector3& operator+=(const Vector3& rhs) {
+        x += rhs.x; y += rhs.y; z += rhs.z;
+        return *this;
+    }
+    Vector3& operator-=(const Vector3& rhs) {
+        x -= rhs.x; y -= rhs.y; z -= rhs.z;
+        return *this;
+    }
+    Vector3& operator*=(const Vector3& rhs) {
+        x *= rhs.x; y *= rhs.y; z *= rhs.z;
+        return *this;
+    }
+    Vector3& operator/=(const Vector3& rhs) {
+        x /= rhs.x; y /= rhs.y; z /= rhs.z;
+        return *this;
+    }
+
     T& operator[](int i) { return p[i]; }
     const T& operator[](int i) const { return p[i]; }
 

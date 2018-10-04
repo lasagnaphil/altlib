@@ -35,6 +35,22 @@ struct Vector4 {
     bool operator!=(const Vector4& rhs) const {
         return !(x == rhs.x && y == rhs.y && z == rhs.z && w == rhs.w);
     }
+    Vector4& operator+=(const Vector4& rhs) const {
+        x += rhs.x; y += rhs.y; z += rhs.z; w += rhs.w;
+        return *this;
+    }
+    Vector4& operator-=(const Vector4& rhs) const {
+        x -= rhs.x; y -= rhs.y; z -= rhs.z; w -= rhs.w;
+        return *this;
+    }
+    Vector4& operator*=(const Vector4& rhs) const {
+        x *= rhs.x; y *= rhs.y; z *= rhs.z; w *= rhs.w;
+        return *this;
+    }
+    Vector4& operator/=(const Vector4& rhs) const {
+        x /= rhs.x; y /= rhs.y; z /= rhs.z; w /= rhs.w;
+        return *this;
+    }
 
     T& operator[](int i) { return p[i]; }
     const T& operator[](int i) const { return p[i]; }

@@ -36,6 +36,23 @@ struct Vector2 {
         return vec;
     }
 
+    Vector2& operator+=(const Vector2& rhs) {
+        x += rhs.x; y += rhs.y;
+        return *this;
+    }
+    Vector2& operator-=(const Vector2& rhs) {
+        x -= rhs.x; y -= rhs.y;
+        return *this;
+    }
+    Vector2& operator*=(const Vector2& rhs) {
+        x *= rhs.x; y *= rhs.y;
+        return *this;
+    }
+    Vector2& operator/=(const Vector2& rhs) {
+        x /= rhs.x; y /= rhs.y;
+        return *this;
+    }
+
     bool operator==(Vector2 other) const {
         return x == other.x && y == other.y;
     }
