@@ -115,10 +115,9 @@ struct Vec {
         return item;
     }
 
-    T pop() {
+    void pop() {
         assert(size > 0);
         size--;
-        return data[size];
     }
 
     T& operator[](size_t idx) {
