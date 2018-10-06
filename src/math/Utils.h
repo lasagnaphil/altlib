@@ -71,6 +71,11 @@ T sigmoid(T x) {
     return (T)1 / ((T)1 + exp(-x));
 }
 
+template <typename T>
+int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
+
 }
 
 
