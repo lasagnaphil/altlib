@@ -66,6 +66,11 @@ Vector4<T> catmullRom(double a) {
     return coeffs;
 }
 
+template <typename T>
+T sigmoid(T x) {
+    return (T)1 / ((T)1 + exp(-x));
+}
+
 }
 
 
