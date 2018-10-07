@@ -66,7 +66,7 @@ struct Vector4 {
     T innerProduct(const Vector4& rhs) const {
         return x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w;
     }
-    T normalize() const;
+    T norm() const;
 };
 
 template <typename T>

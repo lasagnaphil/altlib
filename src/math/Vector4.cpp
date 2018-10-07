@@ -6,7 +6,7 @@
 #include "Vector4.h"
 
 template <>
-double Vector4<double>::normalize() const {
+double Vector4<double>::norm() const {
     return sqrt(x*x+y*y+z*z+w*w);
 }
 

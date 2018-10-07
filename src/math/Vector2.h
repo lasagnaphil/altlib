@@ -70,7 +70,7 @@ struct Vector2 {
     T& operator[](int i) { return p[i]; }
     const T& operator[](int i) const { return p[i]; }
 
-    T normalize() const;
+    T norm() const;
 
     void deserialize(json::Value json);
 

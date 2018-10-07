@@ -6,7 +6,7 @@
 #include "Vector2.h"
 
 template<>
-double Vector2d::normalize() const {
+double Vector2d::norm() const {
     return sqrt(x*x+y*y);
 }
 

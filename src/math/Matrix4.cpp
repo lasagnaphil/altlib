@@ -17,7 +17,7 @@ Matrix4f Matrix4f::rotateZ(float radians) {
 template<>
 Matrix4f Matrix4f::lookAt(const Vector3f &eye, const Vector3f &center, const Vector3f &up) {
 
-    Vector3f f = (eye - center).normalize();
+    Vector3f f = (eye-center).normalize();
     Vector3f r = up.cross(f).normalize();
     Vector3f u = f.cross(r);
 
