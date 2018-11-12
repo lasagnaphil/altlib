@@ -26,9 +26,9 @@ static int _vscprintf_so_alt(const char * format, va_list pargs) {
 static int vasprintf_alt(char **strp, const char *fmt, va_list ap) {
     int len = _vscprintf_so_alt(fmt, ap);
     if (len == -1) return -1;
-    char *str = new char[(size_t) len + 1];
+    char *str = new char[len + 1];
     int r = vsnprintf(str, len + 1, fmt, ap); /* "secure" version of vsprintf */
-    if (r == -1) return free(str), -1;
+    if (r == -1) return delete[] str, -1;
     *strp = str;
     return r;
 }
@@ -38,17 +38,14 @@ struct StrView {
     size_t len;
 
     static StrView fromRaw(const char* str) {
-        return fromRaw(str, strlen(str));
+		return StrView { str, strlen(str) };
     }
 
     static StrView fromRaw(const char* str, size_t len) {
-        return StrView {
-            str,
-            len
-        };
+        return StrView { str, len };
     }
 
-    static const StrView empty() {
+    static StrView empty() {
         return StrView::fromRaw("");
     }
 
@@ -61,6 +58,7 @@ struct StrView {
 
 struct String {
     Vec<char> buffer;
+
 
     static String create(const char* str) {
         return String::create(str, strlen(str));
@@ -108,6 +106,38 @@ struct String {
     inline bool operator==(String other) const {
         if (other.buffer.size != buffer.size) return false;
         return memcmp(other.buffer.data, buffer.data, buffer.size) == 0;
+    }
+
+	void append(const char* str)
+    {
+		append(StrView::fromRaw(str));
+    }
+
+	void append(StrView str)
+    {
+		size_t origSize = buffer.size;
+		if (buffer.capacity < buffer.size + str.len)
+		{
+			buffer.reserve(2 * buffer.capacity);
+		}
+		memcpy(buffer.data + origSize - 1, str.data, str.len);
+		buffer[buffer.size - 1] = '\0';
+    }
+
+	void append(char c)
+    {
+		buffer[buffer.size - 1] = c;
+		buffer.push('\0');
+    }
+
+	void fmtAppend(const char* fmt, ...) {
+        char* str;
+        va_list ap;
+        va_start(ap, fmt);
+        int r = vasprintf_alt(&str, fmt, ap);
+        va_end(ap);
+		append(str);
+		delete[] str;
     }
 };
 
