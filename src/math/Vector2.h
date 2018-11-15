@@ -111,16 +111,4 @@ using Vector2f = Vector2<float>;
 using Vector2i = Vector2<int>;
 using Vector2d = Vector2<double>;
 
-inline Vector2i Vec2i(int x, int y) {
-    return Vector2i::create(x,y);
-}
-
-inline Vector2f Vec2f(float x, float y) {
-    return Vector2f::create(x,y);
-}
-
-inline Vector2d Vec2d(double x, double y) {
-    return Vector2d::create(x,y);
-}
-
 #endif //ALTLIB_VECTOR2_H
