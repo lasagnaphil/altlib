@@ -2,15 +2,15 @@
 // Created by lasagnaphil on 7/14/18.
 //
 
-#include "catch.hpp"
+#include "doctest.h"
 #include "Defer.h"
 #include "StringPool.h"
 
-TEST_CASE("String works!", "[String]") {
-    SECTION("Is POD") {
+TEST_CASE("String works!") {
+    SUBCASE("Is POD") {
         REQUIRE(std::is_pod<String>());
     }
-    SECTION("String find") {
+    SUBCASE("String find") {
         String str = "The quick brown fox jumps over the lazy dog";
 
         REQUIRE(str.find('o') == 12);
@@ -39,12 +39,12 @@ TEST_CASE("String works!", "[String]") {
     }
 }
 
-TEST_CASE("Symbol/StringPool works!", "[String]") {
-    SECTION("Is POD") {
+TEST_CASE("Symbol/StringPool works!") {
+    SUBCASE("Is POD") {
         REQUIRE(std::is_pod<StringPool>());
     }
 
-    SECTION("Create and use symbols") {
+    SUBCASE("Create and use symbols") {
         StringPool pool = StringPool::create();
         defer {pool.free();};
         Symbol sym1 = pool.inject("one");

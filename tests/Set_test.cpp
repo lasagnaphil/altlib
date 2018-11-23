@@ -1,15 +1,15 @@
 //
 // Created by lasagnaphil on 8/10/18.
 //
-#include "catch.hpp"
+#include "doctest.h"
 #include "Set.h"
 #include "Defer.h"
 
-TEST_CASE("Set works", "[Set]") {
-    SECTION("Is POD") {
+TEST_CASE("Set works") {
+    SUBCASE("Is POD") {
         REQUIRE(std::is_pod<Set<int>>());
     }
-    SECTION("create with default arg, insert, has, free") {
+    SUBCASE("create with default arg, insert, has, free") {
         auto set = Set<int>::create();
         defer {set.free();};
 
@@ -22,7 +22,7 @@ TEST_CASE("Set works", "[Set]") {
         }
         REQUIRE(!set.has(100));
     }
-    SECTION("insert duplicates") {
+    SUBCASE("insert duplicates") {
         auto set = Set<int>::create();
         defer {set.free();};
 
@@ -34,7 +34,7 @@ TEST_CASE("Set works", "[Set]") {
         REQUIRE(set.has(42));
         REQUIRE(!set.has(43));
     }
-    SECTION("insert and remove") {
+    SUBCASE("insert and remove") {
         auto set = Set<int>::create();
         defer {set.free();};
 

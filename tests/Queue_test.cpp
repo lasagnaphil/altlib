@@ -2,17 +2,17 @@
 // Created by lasagnaphil on 10/11/18.
 //
 
-#include "catch.hpp"
+#include "doctest.h"
 
 #include "Queue.h"
 #include "Defer.h"
 
-TEST_CASE("Queue works", "[Queue]") {
-    SECTION("Is POD") {
+TEST_CASE("Queue works") {
+    SUBCASE("Is POD") {
         REQUIRE(std::is_pod<Queue<int>>());
     }
 
-    SECTION("Enqueue and Dequeue works") {
+    SUBCASE("Enqueue and Dequeue works") {
         auto q = Queue<int>::create();
         defer {q.free();};
 
@@ -34,7 +34,7 @@ TEST_CASE("Queue works", "[Queue]") {
         REQUIRE(q.size == 2);
     }
 
-    SECTION("More Enqueue / Dequeue") {
+    SUBCASE("More Enqueue / Dequeue") {
         auto q = Queue<int>::create();
         defer {q.free();};
 

@@ -2,15 +2,15 @@
 // Created by lasagnaphil on 7/10/18.
 //
 
-#include "catch.hpp"
+#include "doctest.h"
 #include "Vec.h"
 #include "Defer.h"
 
-TEST_CASE("Vec works", "[Vec]") {
-    SECTION("Is POD") {
+TEST_CASE("Vec works") {
+    SUBCASE("Is POD") {
         REQUIRE(std::is_pod<Vec<int>>());
     }
-    SECTION("create with default arg, push, free") {
+    SUBCASE("create with default arg, push, free") {
         Vec<int> vec = {};
         defer {vec.free();};
 
@@ -20,7 +20,7 @@ TEST_CASE("Vec works", "[Vec]") {
         REQUIRE(vec.size == 100);
         REQUIRE(vec.capacity == 128);
     }
-    SECTION("create with initializer list") {
+    SUBCASE("create with initializer list") {
         {
             Vec<int> vec {0, 1, 2, 3};
             defer {vec.free();};
@@ -42,7 +42,7 @@ TEST_CASE("Vec works", "[Vec]") {
             REQUIRE(vec[3] == 3);
         }
     }
-    SECTION("create with capacity, push, pop, free") {
+    SUBCASE("create with capacity, push, pop, free") {
         auto vec = Vec<int>::create(2);
         defer {vec.free();};
 
@@ -57,7 +57,7 @@ TEST_CASE("Vec works", "[Vec]") {
         REQUIRE(vec[1] == 1);
         REQUIRE(vec[2] == 5);
     }
-    SECTION("create from duplication") {
+    SUBCASE("create from duplication") {
         auto vec = Vec<int>::fromElem(42, 3);
         defer {vec.free();};
 
@@ -65,7 +65,7 @@ TEST_CASE("Vec works", "[Vec]") {
         REQUIRE(vec[1] == 42);
         REQUIRE(vec[2] == 42);
     }
-    SECTION("clone") {
+    SUBCASE("clone") {
         auto vec = Vec<int>::create(4);
         defer {vec.free();};
         vec.push(0);
@@ -78,7 +78,7 @@ TEST_CASE("Vec works", "[Vec]") {
         REQUIRE(vec[1] == otherVec[1]);
         REQUIRE(vec[2] == otherVec[2]);
     }
-    SECTION("expand, shrink") {
+    SUBCASE("expand, shrink") {
         auto vec = Vec<int>::create(3);
         defer {vec.free();};
 

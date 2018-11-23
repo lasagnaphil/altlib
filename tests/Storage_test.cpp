@@ -2,7 +2,7 @@
 // Created by lasagnaphil on 7/14/18.
 //
 
-#include "catch.hpp"
+#include "doctest.h"
 #include "Storage.h"
 #include "Defer.h"
 
@@ -17,16 +17,16 @@ struct TestRes {
 };
 template <> uint16_t TypeRegistry::getID<TestRes>() { return 1; }
 
-TEST_CASE("Storage works", "[Storage]") {
-    SECTION("Is POD") {
+TEST_CASE("Storage works") {
+    SUBCASE("Is POD") {
         REQUIRE(std::is_pod<Storage<TestRes>>());
     }
-    SECTION("Storage creation") {
+    SUBCASE("Storage creation") {
         auto storage = Storage<TestRes>::create(8);
         defer {storage.free();};
         REQUIRE(storage.capacity == 8);
     }
-    SECTION("Storage test (small)") {
+    SUBCASE("Storage test (small)") {
         auto storage = Storage<TestRes>::create(8);
         defer {storage.free();};
         // auto strpool = StringPool::create();
@@ -58,7 +58,7 @@ TEST_CASE("Storage works", "[Storage]") {
         REQUIRE(storage.has(ref2));
         REQUIRE(storage.has(ref3));
     }
-    SECTION("Storage test (big, expanding)") {
+    SUBCASE("Storage test (big, expanding)") {
 #define TEST_SIZE 2048
         auto storage = Storage<TestRes>::create(1);
         defer {storage.free();};

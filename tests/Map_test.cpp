@@ -2,15 +2,15 @@
 // Created by lasagnaphil on 7/10/18.
 //
 
-#include "catch.hpp"
+#include "doctest.h"
 #include "Map.h"
 #include "Defer.h"
 
-TEST_CASE("Map works", "[Map]") {
-    SECTION("Is POD") {
+TEST_CASE("Map works") {
+    SUBCASE("Is POD") {
         REQUIRE(std::is_pod<Map<int, int>>());
     }
-    SECTION("init, insert, get, tryGet, size") {
+    SUBCASE("init, insert, get, tryGet, size") {
         auto map = Map<int, int>::create();
         defer {map.free();};
         map.insert(0, 1);
@@ -28,7 +28,7 @@ TEST_CASE("Map works", "[Map]") {
         REQUIRE(map.size() == 5);
     }
 
-    SECTION("insert / set / erase a lot") {
+    SUBCASE("insert / set / erase a lot") {
         auto map = Map<int, int>::create();
         defer {map.free();};
         for (int i = 0; i < 100; ++i) {

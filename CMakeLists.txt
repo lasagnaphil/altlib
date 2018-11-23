@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 set(PROJECT_NAME altlib)
 project(${PROJECT_NAME})
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 
 option(altlib_build_tests "Build tests for altlib." ON)
 
@@ -14,14 +14,15 @@ add_library(${PROJECT_NAME} ${PROJECT_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_INCLUDE_DIR})
 
 if (altlib_build_tests)
-    set(CATCH2_DIR ${CMAKE_CURRENT_SOURCE_DIR}/catch2)
-    add_library(catch2 INTERFACE)
-    target_include_directories(catch2 INTERFACE ${CATCH2_DIR})
+    set(DOCTEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/doctest)
+    add_library(doctest INTERFACE)
+    target_compile_definitions(doctest INTERFACE TLS_NO_DEBUG)
+    target_include_directories(doctest INTERFACE ${DOCTEST_DIR})
 
     set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
     file(GLOB_RECURSE TEST_SOURCES ${TEST_DIR}/*.cpp)
     add_executable(altlib-tests ${TEST_SOURCES})
     target_include_directories(altlib-tests PRIVATE ${PROJECT_INCLUDE_DIR})
     target_link_libraries(altlib-tests altlib)
-    target_link_libraries(altlib-tests catch2)
+    target_link_libraries(altlib-tests doctest)
 endif()
