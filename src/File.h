@@ -21,7 +21,7 @@ struct File {
         if (file.file == NULL) {
             auto errorStr = String::fmt(
                     "Error while loading file %s with permissions %s:\n    %s",
-                    filename, permissions, strerror(errno));
+                    filename, permissions, strerror(errno)).unwrap();
             return Result<File, Err>::err(errorStr);
         }
         return Result<File, Err>::ok(file);
@@ -35,7 +35,7 @@ struct File {
         char* data = str.data();
         if (size != fread(data, sizeof(char), size, file)) {
             str.free();
-            auto errorStr = String::fmt("Error while reading file:\n    %s", strerror(errno));
+            auto errorStr = String::fmt("Error while reading file:\n    %s", strerror(errno)).unwrap();
             return Result<String, Err>::err(errorStr);
         }
         data[size] = 0;
@@ -49,7 +49,7 @@ struct File {
         Vec<char> bytes = Vec<char>::emptyWithSize(size);
         if (size != fread(bytes.data, sizeof(char), size, file)) {
             bytes.free();
-            auto errorStr = String::fmt("Error while reading file:\n    %s", strerror(errno));
+            auto errorStr = String::fmt("Error while reading file:\n    %s", strerror(errno)).unwrap();
             return Result<Vec<char>, Err>::err(errorStr);
         }
         return Result<Vec<char>, Err>::ok(bytes);

@@ -14,6 +14,8 @@ struct Option {
     T data;
     bool isSome;
 
+    operator bool() const { return isSome; }
+
     static Option<T> some(const T& data) {
         return Option {data, true};
     }

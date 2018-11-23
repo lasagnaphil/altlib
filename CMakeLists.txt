@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 set(PROJECT_NAME altlib)
 project(${PROJECT_NAME})
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 option(altlib_build_tests "Build tests for altlib." ON)
 

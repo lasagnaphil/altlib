@@ -33,7 +33,7 @@ namespace json {
                 return Result<Value, Err>::ok(Value{obj});
             }
             else {
-                return Result<Value, Err>::err(str);
+                return Result<Value, Err>::err(lit(str));
             }
         }
 
@@ -132,8 +132,8 @@ namespace json {
                 return Result<const char*, Err>::ok(json->valuestring);
             }
             else {
-                auto str = String::fmt("JSON error: %s", cJSON_GetErrorPtr());
-                return Result<const char*, Err>::err(str.data());
+                auto str = String::fmt("JSON error: %s", cJSON_GetErrorPtr()).unwrap();
+                return Result<const char*, Err>::err(str);
             }
         }
 
@@ -142,8 +142,8 @@ namespace json {
                 return Result<int, Err>::ok(json->valueint);
             }
             else {
-                auto str = String::fmt("JSON error: %s", cJSON_GetErrorPtr());
-                return Result<int, Err>::err(str.data());
+                auto str = String::fmt("JSON error: %s", cJSON_GetErrorPtr()).unwrap();
+                return Result<int, Err>::err(str);
             }
         }
 
@@ -152,8 +152,8 @@ namespace json {
                 return Result<double, Err>::ok(json->valuedouble);
             }
             else {
-                auto str = String::fmt("JSON error: %s", cJSON_GetErrorPtr());
-                return Result<double, Err>::err(str.data());
+                auto str = String::fmt("JSON error: %s", cJSON_GetErrorPtr()).unwrap();
+                return Result<double, Err>::err(str);
             }
         }
 

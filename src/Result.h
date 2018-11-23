@@ -14,7 +14,8 @@ struct Ok {};
 
 struct Err {
     String msg;
-    static Err create(const char* message) {
+
+    static Err create(StrView message) {
         Err err;
         err.msg = String::create(message);
         return err;
@@ -58,7 +59,7 @@ struct Result {
         return result;
     }
 
-    static Result err(const char* str) {
+    static Result err(StrView str) {
         Result result;
         result.error = Error::create(str);
         result.isValid = false;
@@ -83,5 +84,8 @@ struct Result {
         if (!isValid) { error.free(); }
     }
 };
+
+template <typename T>
+using Res = Result<T, Err>;
 
 #endif //ALTLIB_RESULT_H

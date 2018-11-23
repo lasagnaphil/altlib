@@ -24,7 +24,7 @@ struct Ref {
     static Ref fromInt64(int64_t data) {
         return *reinterpret_cast<Ref*>(&data);
     }
-    int64_t ToInt64() {
+    int64_t toInt64() {
         return *reinterpret_cast<int64_t*>(this);
     }
 
@@ -40,7 +40,7 @@ struct Ref {
     }
 
     String toStr() {
-        String str = String::create("", 18);
+        String str = String::create(18);
         snprintf(str.data(), 18, "0x%llx", *reinterpret_cast<uint64_t*>(this));
         return str;
     }

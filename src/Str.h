@@ -6,6 +6,7 @@
 #define ALTLIB_STRING_H
 
 #include "Vec.h"
+#include "Option.h"
 
 #include <stdio.h> /* needed for vsnprintf */
 #include <stdlib.h> /* needed for malloc-free */
@@ -14,77 +15,68 @@
 #include <stddef.h>
 #include <string.h>
 
-static int _vscprintf_so_alt(const char * format, va_list pargs) {
-    int retval;
-    va_list argcopy;
-    va_copy(argcopy, pargs);
-    retval = vsnprintf(NULL, 0, format, argcopy);
-    va_end(argcopy);
-    return retval;
-}
-
-static int vasprintf_alt(char **strp, const char *fmt, va_list ap) {
-    int len = _vscprintf_so_alt(fmt, ap);
-    if (len == -1) return -1;
-    char *str = new char[len + 1];
-    int r = vsnprintf(str, len + 1, fmt, ap); /* "secure" version of vsprintf */
-    if (r == -1) return delete[] str, -1;
-    *strp = str;
-    return r;
-}
+#define lit(__STR) StrView::fromRaw(__STR)
 
 struct StrView {
     const char* data;
     size_t len;
 
     static StrView fromRaw(const char* str) {
-		return StrView { str, strlen(str) };
+        return StrView(str);
     }
 
     static StrView fromRaw(const char* str, size_t len) {
-        return StrView { str, len };
+        return StrView(str, len);
     }
 
     static StrView empty() {
         return StrView::fromRaw("");
     }
 
-    inline bool operator==(StrView other) const {
-        if (other.len != len) return false;
-        return memcmp(other.data, data, len) == 0;
+    StrView() = default;
+    explicit StrView(const char* str) {
+        data = str;
+        len = strlen(str);
+    }
+    StrView(const char* str, size_t len) {
+        data = str;
+        this->len = len;
+    }
+
+    const char& operator[](size_t idx) const {
+        assert(idx >= 0 && idx < len);
+        return data[idx];
     }
 };
 
+template <typename T, typename U>
+struct Result;
+
+struct Err;
 
 struct String {
     Vec<char> buffer;
+    size_t len;
 
+    static String create(const char* str);
 
-    static String create(const char* str) {
-        return String::create(str, strlen(str));
-    }
-
-    static String create(const char* str, size_t len) {
-        String string;
-        string.buffer = Vec<char>::create(len + 1);
-        memcpy(string.buffer.data, str, (len + 1) * sizeof(char));
-        string.buffer.size = len + 1;
-        return string;
-    }
+    static String create(StrView str);
 
     static String create(size_t len) {
         String string;
         string.buffer = Vec<char>::create(len + 1);
+        string.len = len;
         return string;
     }
 
-    static String fmt(const char* fmt, ...) {
-        char* str;
-        va_list ap;
-        va_start(ap, fmt);
-        int r = vasprintf_alt(&str, fmt, ap);
-        va_end(ap);
-        return String::create(str);
+    static Result<String, Err> fmt(const char* fmt, ...);
+
+    String() = default;
+    String(const char* str) {
+        len = strlen(str);
+        buffer = Vec<char>::create(len + 1);
+        buffer.size = len + 1;
+        memcpy(buffer.data, str, (len + 1) * sizeof(char));
     }
 
     void free() {
@@ -95,50 +87,76 @@ struct String {
         return buffer.data;
     }
 
-    size_t len() const {
-        return buffer.size - 1;
+    size_t size() const {
+        return len;
+    }
+
+    size_t capacity() const {
+        return buffer.size;
     }
 
     StrView getView() const {
-        return StrView::fromRaw(buffer.data, buffer.size - 1);
+        return StrView::fromRaw(buffer.data, len);
     }
 
-    inline bool operator==(String other) const {
-        if (other.buffer.size != buffer.size) return false;
-        return memcmp(other.buffer.data, buffer.data, buffer.size) == 0;
-    }
+	void append(StrView str);
+	void append(char c);
 
-	void append(const char* str)
-    {
-		append(StrView::fromRaw(str));
-    }
+	bool fmtAppend(const char* fmt, ...);
 
-	void append(StrView str)
-    {
-		size_t origSize = buffer.size;
-		if (buffer.capacity < buffer.size + str.len)
-		{
-			buffer.reserve(2 * buffer.capacity);
-		}
-		memcpy(buffer.data + origSize - 1, str.data, str.len);
-		buffer[buffer.size - 1] = '\0';
-    }
+    int find(char c, int startIdx = 0);
 
-	void append(char c)
-    {
-		buffer[buffer.size - 1] = c;
-		buffer.push('\0');
-    }
+    int findReverse(char c);
+    int findReverse(char c, int startIdx);
 
-	void fmtAppend(const char* fmt, ...) {
-        char* str;
-        va_list ap;
-        va_start(ap, fmt);
-        int r = vasprintf_alt(&str, fmt, ap);
-        va_end(ap);
-		append(str);
-		delete[] str;
-    }
+    Vec<int> findAll(char c, int startIdx = 0);
+
+    int find(StrView target, int startIdx = 0);
+
+    int findReverse(StrView target);
+    int findReverse(StrView target, int startIdx);
+
+    Vec<int> findAll(StrView target, int startIdx = 0);
 };
+
+inline bool operator==(StrView lhs, StrView rhs) {
+    if (lhs.len != rhs.len) return false;
+    return memcmp(lhs.data, rhs.data, lhs.len) == 0;
+}
+
+inline bool operator!=(StrView lhs, StrView rhs) {
+    if (lhs.len != rhs.len) return true;
+    return memcmp(lhs.data, rhs.data, lhs.len) != 0;
+}
+
+inline bool operator==(String lhs, StrView rhs) {
+    if (lhs.size() == rhs.len) return false;
+    return memcmp(lhs.data(), rhs.data, lhs.size()) == 0;
+}
+
+inline bool operator!=(String lhs, StrView rhs) {
+    if (lhs.size() == rhs.len) return true;
+    return memcmp(lhs.data(), rhs.data, lhs.size()) != 0;
+}
+
+inline bool operator==(StrView lhs, String rhs) {
+    if (lhs.len == rhs.size()) return false;
+    return memcmp(lhs.data, rhs.data(), lhs.len) == 0;
+}
+
+inline bool operator!=(StrView lhs, String rhs) {
+    if (lhs.len == rhs.size()) return true;
+    return memcmp(lhs.data, rhs.data(), lhs.len) != 0;
+}
+
+inline bool operator==(String lhs, String rhs) {
+    if (lhs.buffer.size != rhs.buffer.size) return false;
+    return memcmp(lhs.buffer.data, rhs.buffer.data, lhs.buffer.size) == 0;
+}
+
+inline bool operator!=(String lhs, String rhs) {
+    if (lhs.buffer.size != rhs.buffer.size) return true;
+    return memcmp(lhs.buffer.data, rhs.buffer.data, lhs.buffer.size) != 0;
+}
 
 #endif //ALTLIB_STRING_H

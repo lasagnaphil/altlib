@@ -11,7 +11,7 @@ TEST_CASE("Vec works", "[Vec]") {
         REQUIRE(std::is_pod<Vec<int>>());
     }
     SECTION("create with default arg, push, free") {
-        auto vec = Vec<int>::create();
+        Vec<int> vec = {};
         defer {vec.free();};
 
         for (int i = 0; i < 100; ++i) {
@@ -19,6 +19,28 @@ TEST_CASE("Vec works", "[Vec]") {
         }
         REQUIRE(vec.size == 100);
         REQUIRE(vec.capacity == 128);
+    }
+    SECTION("create with initializer list") {
+        {
+            Vec<int> vec {0, 1, 2, 3};
+            defer {vec.free();};
+            REQUIRE(vec.size == 4);
+            REQUIRE(vec.capacity == 4);
+            REQUIRE(vec[0] == 0);
+            REQUIRE(vec[1] == 1);
+            REQUIRE(vec[2] == 2);
+            REQUIRE(vec[3] == 3);
+        }
+        {
+            Vec<int> vec = {0, 1, 2, 3};
+            defer {vec.free();};
+            REQUIRE(vec.size == 4);
+            REQUIRE(vec.capacity == 4);
+            REQUIRE(vec[0] == 0);
+            REQUIRE(vec[1] == 1);
+            REQUIRE(vec[2] == 2);
+            REQUIRE(vec[3] == 3);
+        }
     }
     SECTION("create with capacity, push, pop, free") {
         auto vec = Vec<int>::create(2);

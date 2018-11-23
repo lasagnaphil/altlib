@@ -8,6 +8,9 @@
 #include <assert.h>
 #include <string.h>
 
+#include <algorithm>
+#include "Slice.h"
+
 #define FOREACH(__vec, __v, CODE) \
 for (int __i = 0; __i < __vec.size; ++__i) { \
     auto& __v = __vec.data[__i]; \
@@ -19,31 +22,6 @@ for (int __i = 0; __i < __vec.size; ++__i) { \
     auto& __v = __vec[__i]; \
     CODE \
 } \
-
-template <typename T>
-struct Slice {
-    T* data;
-    size_t size;
-
-    static Slice fromRaw(T* data, size_t size) {
-        return Slice {
-            data,
-            size
-        };
-    }
-
-    T& operator[](size_t idx) {
-        assert(idx >= 0 && idx < size);
-        T& item = data[idx];
-        return item;
-    }
-
-    const T& operator[](size_t idx) const {
-        assert(idx >= 0 && idx < size);
-        const T& item = data[idx];
-        return item;
-    }
-};
 
 template <typename T>
 struct Vec {
@@ -81,6 +59,13 @@ struct Vec {
         memcpy(vec.data, data, sizeof(T) * count);
         vec.size = count;
         return vec;
+    }
+
+    Vec() = default;
+    Vec(std::initializer_list<T> elems) {
+        size = capacity = elems.size();
+        data = new T[size];
+        memcpy(data, elems.begin(), sizeof(T)*size);
     }
 
     Vec<T> clone() {
