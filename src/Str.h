@@ -11,7 +11,7 @@
 #include <stdio.h> /* needed for vsnprintf */
 #include <stdlib.h> /* needed for malloc-free */
 #include <stdarg.h> /* needed for va_list */
-#include <memory.h>
+#include <Mem.h>
 #include <stddef.h>
 #include <string.h>
 
